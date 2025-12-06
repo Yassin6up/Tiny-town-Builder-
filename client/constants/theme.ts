@@ -1,30 +1,49 @@
 import { Platform } from "react-native";
 
-const tintColorLight = "#007AFF";
-const tintColorDark = "#0A84FF";
-
 export const Colors = {
   light: {
-    text: "#11181C",
+    text: "#5C4033",
+    textSecondary: "#8B7355",
     buttonText: "#FFFFFF",
-    tabIconDefault: "#687076",
-    tabIconSelected: tintColorLight,
-    link: "#007AFF",
-    backgroundRoot: "#FFFFFF", // Elevation 0
-    backgroundDefault: "#F2F2F2", // Elevation 1
-    backgroundSecondary: "#E6E6E6", // Elevation 2
-    backgroundTertiary: "#D9D9D9", // Elevation 3
+    tabIconDefault: "#A9A9A9",
+    tabIconSelected: "#8FBC8F",
+    link: "#8FBC8F",
+    backgroundRoot: "#FFFAF0",
+    backgroundDefault: "#FFF8DC",
+    backgroundSecondary: "#F5ECD3",
+    backgroundTertiary: "#EBE1C8",
+    sage: "#8FBC8F",
+    sandyBrown: "#F4A460",
+    skyBlue: "#87CEEB",
+    cornsilk: "#FFF8DC",
+    warmWhite: "#FFFAF0",
+    darkWood: "#5C4033",
+    gold: "#FFD700",
+    mutedRed: "#CD5C5C",
+    lockGray: "#A9A9A9",
+    border: "#E8DCC8",
   },
   dark: {
-    text: "#ECEDEE",
+    text: "#FFF8DC",
+    textSecondary: "#D4C9B5",
     buttonText: "#FFFFFF",
     tabIconDefault: "#9BA1A6",
-    tabIconSelected: tintColorDark,
-    link: "#0A84FF",
-    backgroundRoot: "#1F2123", // Elevation 0
-    backgroundDefault: "#2A2C2E", // Elevation 1
-    backgroundSecondary: "#353739", // Elevation 2
-    backgroundTertiary: "#404244", // Elevation 3
+    tabIconSelected: "#8FBC8F",
+    link: "#8FBC8F",
+    backgroundRoot: "#2A2218",
+    backgroundDefault: "#3A3228",
+    backgroundSecondary: "#4A4238",
+    backgroundTertiary: "#5A5248",
+    sage: "#8FBC8F",
+    sandyBrown: "#F4A460",
+    skyBlue: "#87CEEB",
+    cornsilk: "#FFF8DC",
+    warmWhite: "#FFFAF0",
+    darkWood: "#5C4033",
+    gold: "#FFD700",
+    mutedRed: "#CD5C5C",
+    lockGray: "#6B6B6B",
+    border: "#4A4238",
   },
 };
 
@@ -40,12 +59,13 @@ export const Spacing = {
   "5xl": 48,
   inputHeight: 48,
   buttonHeight: 52,
+  touchableMin: 44,
 };
 
 export const BorderRadius = {
   xs: 8,
   sm: 12,
-  md: 18,
+  md: 16,
   lg: 24,
   xl: 30,
   "2xl": 40,
@@ -54,65 +74,99 @@ export const BorderRadius = {
 };
 
 export const Typography = {
+  hero: {
+    fontSize: 48,
+    fontWeight: "700" as const,
+    fontFamily: "FredokaOne",
+  },
   h1: {
     fontSize: 32,
-    lineHeight: 40,
     fontWeight: "700" as const,
+    fontFamily: "FredokaOne",
   },
   h2: {
-    fontSize: 28,
-    lineHeight: 36,
+    fontSize: 20,
     fontWeight: "700" as const,
+    fontFamily: "FredokaOne",
   },
   h3: {
-    fontSize: 24,
-    lineHeight: 32,
-    fontWeight: "600" as const,
+    fontSize: 16,
+    fontWeight: "700" as const,
+    fontFamily: "FredokaOne",
   },
   h4: {
-    fontSize: 20,
-    lineHeight: 28,
+    fontSize: 14,
     fontWeight: "600" as const,
+    fontFamily: "FredokaOne",
   },
   body: {
     fontSize: 16,
-    lineHeight: 24,
     fontWeight: "400" as const,
+    fontFamily: "Nunito",
   },
   small: {
     fontSize: 14,
-    lineHeight: 20,
     fontWeight: "400" as const,
+    fontFamily: "Nunito",
+  },
+  caption: {
+    fontSize: 12,
+    fontWeight: "400" as const,
+    fontFamily: "Nunito",
+  },
+  button: {
+    fontSize: 16,
+    fontWeight: "600" as const,
+    fontFamily: "Nunito",
   },
   link: {
     fontSize: 16,
-    lineHeight: 24,
     fontWeight: "400" as const,
+    fontFamily: "Nunito",
   },
 };
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: "system-ui",
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: "ui-serif",
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
+    sans: "Nunito",
+    heading: "FredokaOne",
     rounded: "ui-rounded",
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: "ui-monospace",
   },
   default: {
-    sans: "normal",
-    serif: "serif",
+    sans: "Nunito",
+    heading: "FredokaOne",
     rounded: "normal",
     mono: "monospace",
   },
   web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded:
-      "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
+    sans: "Nunito, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    heading: "Fredoka One, system-ui, sans-serif",
+    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+export const Shadows = {
+  card: {
+    shadowColor: "#5C4033",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  button: {
+    shadowColor: "#5C4033",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+  floating: {
+    shadowColor: "#5C4033",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+};

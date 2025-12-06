@@ -12,7 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { Colors, Spacing, BorderRadius, Fonts } from "@/constants/theme";
 
 export type ErrorFallbackProps = {
   error: Error;
@@ -41,7 +41,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: Colors.light.cornsilk }]}>
       {__DEV__ ? (
         <Pressable
           onPress={() => setIsModalVisible(true)}
@@ -58,12 +58,16 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
       ) : null}
 
       <View style={styles.content}>
+        <View style={styles.iconContainer}>
+          <Feather name="cloud-off" size={48} color={Colors.light.sandyBrown} />
+        </View>
+        
         <ThemedText type="h1" style={styles.title}>
-          Something went wrong
+          Oops! Town Trouble
         </ThemedText>
 
         <ThemedText type="body" style={styles.message}>
-          Please reload the app to continue.
+          Tiny Town Builder ran into a little problem. Let's get your village back up and running!
         </ThemedText>
 
         <Pressable
@@ -71,17 +75,18 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           style={({ pressed }) => [
             styles.button,
             {
-              backgroundColor: theme.link,
+              backgroundColor: Colors.light.sage,
               opacity: pressed ? 0.9 : 1,
               transform: [{ scale: pressed ? 0.98 : 1 }],
             },
           ]}
         >
+          <Feather name="refresh-cw" size={20} color={Colors.light.warmWhite} />
           <ThemedText
             type="body"
-            style={[styles.buttonText, { color: theme.buttonText }]}
+            style={[styles.buttonText, { color: Colors.light.warmWhite }]}
           >
-            Try Again
+            Rebuild Town
           </ThemedText>
         </Pressable>
       </View>
@@ -159,14 +164,25 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 600,
   },
+  iconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: Colors.light.warmWhite,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: Spacing.md,
+  },
   title: {
     textAlign: "center",
-    lineHeight: 40,
+    fontFamily: "FredokaOne",
+    color: Colors.light.darkWood,
   },
   message: {
     textAlign: "center",
     opacity: 0.7,
-    lineHeight: 24,
+    fontFamily: "Nunito",
+    color: Colors.light.darkWood,
   },
   topButton: {
     position: "absolute",
@@ -181,11 +197,14 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   button: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
     paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    paddingHorizontal: Spacing["2xl"],
-    minWidth: 200,
-    shadowColor: "#000",
+    borderRadius: BorderRadius.full,
+    paddingHorizontal: Spacing["3xl"],
+    marginTop: Spacing.lg,
+    shadowColor: Colors.light.darkWood,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -198,6 +217,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     fontSize: 16,
+    fontFamily: "Nunito-Bold",
   },
   modalOverlay: {
     flex: 1,
