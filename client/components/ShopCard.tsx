@@ -59,7 +59,7 @@ export function ShopCard({
       ]}
     >
       <View style={styles.iconWrapper}>
-        <BuildingIcon type={building.iconType} size={70} />
+        <BuildingIcon type={building.iconType} tier={building.tier} size={70} />
         {isLocked ? (
           <View style={styles.lockOverlay}>
             <Feather name="lock" size={24} color={Colors.light.warmWhite} />
@@ -70,6 +70,18 @@ export function ShopCard({
       <View style={styles.info}>
         <View style={styles.nameRow}>
           <ThemedText style={styles.buildingName}>{building.name}</ThemedText>
+          {building.tier !== "common" ? (
+            <View
+              style={[
+                styles.tierBadge,
+                building.tier === "legendary" ? styles.legendaryBadge : styles.rareBadge,
+              ]}
+            >
+              <ThemedText style={styles.tierText}>
+                {building.tier === "legendary" ? "Legendary" : "Rare"}
+              </ThemedText>
+            </View>
+          ) : null}
           {building.owned > 0 ? (
             <View style={[styles.ownedBadge, { backgroundColor: theme.sage }]}>
               <ThemedText style={styles.ownedText}>x{building.owned}</ThemedText>
@@ -142,7 +154,8 @@ const styles = StyleSheet.create({
   nameRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: Spacing.sm,
+    flexWrap: "wrap",
+    gap: Spacing.xs,
   },
   buildingName: {
     fontFamily: "FredokaOne",
@@ -158,6 +171,22 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: 12,
     color: Colors.light.warmWhite,
+  },
+  tierBadge: {
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.sm,
+  },
+  rareBadge: {
+    backgroundColor: "#5DADE2",
+  },
+  legendaryBadge: {
+    backgroundColor: "#F4D03F",
+  },
+  tierText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: 10,
+    color: Colors.light.darkWood,
   },
   description: {
     fontFamily: "Nunito",

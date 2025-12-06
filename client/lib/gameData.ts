@@ -11,6 +11,15 @@ export interface District {
   unlocked: boolean;
 }
 
+export type BuildingTier = "common" | "rare" | "legendary";
+
+export type BuildingIconType = 
+  | "cottage" | "bakery" | "lighthouse" | "windmill" | "market" | "workshop" 
+  | "tavern" | "observatory" | "pyramid" | "oasis" | "cactus" | "skyscraper" 
+  | "fountain" | "cafe" | "hotel"
+  | "apiary" | "treehouse" | "shipyard" | "marina" | "skiLodge" | "icePalace"
+  | "bazaar" | "sultanPalace" | "rooftopGarden" | "penthouse";
+
 export interface Building {
   id: string;
   name: string;
@@ -20,7 +29,8 @@ export interface Building {
   districtId: DistrictId;
   owned: number;
   level: number;
-  iconType: "cottage" | "bakery" | "lighthouse" | "windmill" | "market" | "workshop" | "tavern" | "observatory" | "pyramid" | "oasis" | "cactus" | "skyscraper" | "fountain" | "cafe" | "hotel";
+  iconType: BuildingIconType;
+  tier: BuildingTier;
 }
 
 export interface GameState {
@@ -47,25 +57,35 @@ export const DISTRICTS: District[] = [
 ];
 
 export const BUILDINGS: Building[] = [
-  { id: "cottage", name: "Cozy Cottage", description: "A warm little home", baseCost: 15, baseIncome: 1, districtId: "forest", owned: 0, level: 1, iconType: "cottage" },
-  { id: "bakery", name: "Village Bakery", description: "Fresh bread daily", baseCost: 100, baseIncome: 5, districtId: "forest", owned: 0, level: 1, iconType: "bakery" },
-  { id: "windmill", name: "Old Windmill", description: "Turns grain to flour", baseCost: 500, baseIncome: 20, districtId: "forest", owned: 0, level: 1, iconType: "windmill" },
+  { id: "cottage", name: "Cozy Cottage", description: "A warm little home", baseCost: 15, baseIncome: 1, districtId: "forest", owned: 0, level: 1, iconType: "cottage", tier: "common" },
+  { id: "bakery", name: "Village Bakery", description: "Fresh bread daily", baseCost: 100, baseIncome: 5, districtId: "forest", owned: 0, level: 1, iconType: "bakery", tier: "common" },
+  { id: "windmill", name: "Old Windmill", description: "Turns grain to flour", baseCost: 500, baseIncome: 20, districtId: "forest", owned: 0, level: 1, iconType: "windmill", tier: "common" },
+  { id: "apiary", name: "Golden Apiary", description: "Busy bees, sweet honey", baseCost: 1000, baseIncome: 50, districtId: "forest", owned: 0, level: 1, iconType: "apiary", tier: "rare" },
+  { id: "treehouse", name: "Enchanted Treehouse", description: "Magic lives here", baseCost: 2500, baseIncome: 140, districtId: "forest", owned: 0, level: 1, iconType: "treehouse", tier: "legendary" },
   
-  { id: "lighthouse", name: "Lighthouse", description: "Guides ships home", baseCost: 1500, baseIncome: 50, districtId: "coastal", owned: 0, level: 1, iconType: "lighthouse" },
-  { id: "market", name: "Fish Market", description: "Fresh catch today", baseCost: 3000, baseIncome: 100, districtId: "coastal", owned: 0, level: 1, iconType: "market" },
-  { id: "workshop", name: "Boat Workshop", description: "Craft fine vessels", baseCost: 8000, baseIncome: 250, districtId: "coastal", owned: 0, level: 1, iconType: "workshop" },
+  { id: "lighthouse", name: "Lighthouse", description: "Guides ships home", baseCost: 1500, baseIncome: 50, districtId: "coastal", owned: 0, level: 1, iconType: "lighthouse", tier: "common" },
+  { id: "market", name: "Fish Market", description: "Fresh catch today", baseCost: 3000, baseIncome: 100, districtId: "coastal", owned: 0, level: 1, iconType: "market", tier: "common" },
+  { id: "workshop", name: "Boat Workshop", description: "Craft fine vessels", baseCost: 8000, baseIncome: 250, districtId: "coastal", owned: 0, level: 1, iconType: "workshop", tier: "common" },
+  { id: "shipyard", name: "Royal Shipyard", description: "Build grand vessels", baseCost: 16000, baseIncome: 625, districtId: "coastal", owned: 0, level: 1, iconType: "shipyard", tier: "rare" },
+  { id: "marina", name: "Crystal Marina", description: "Luxury yachts dock", baseCost: 40000, baseIncome: 1750, districtId: "coastal", owned: 0, level: 1, iconType: "marina", tier: "legendary" },
   
-  { id: "tavern", name: "Mountain Tavern", description: "Warm drinks await", baseCost: 20000, baseIncome: 500, districtId: "mountain", owned: 0, level: 1, iconType: "tavern" },
-  { id: "observatory", name: "Star Observatory", description: "Watch the cosmos", baseCost: 50000, baseIncome: 1200, districtId: "mountain", owned: 0, level: 1, iconType: "observatory" },
-  { id: "cafe", name: "Alpine Cafe", description: "Best views around", baseCost: 100000, baseIncome: 2500, districtId: "mountain", owned: 0, level: 1, iconType: "cafe" },
+  { id: "tavern", name: "Mountain Tavern", description: "Warm drinks await", baseCost: 20000, baseIncome: 500, districtId: "mountain", owned: 0, level: 1, iconType: "tavern", tier: "common" },
+  { id: "observatory", name: "Star Observatory", description: "Watch the cosmos", baseCost: 50000, baseIncome: 1200, districtId: "mountain", owned: 0, level: 1, iconType: "observatory", tier: "common" },
+  { id: "cafe", name: "Alpine Cafe", description: "Best views around", baseCost: 100000, baseIncome: 2500, districtId: "mountain", owned: 0, level: 1, iconType: "cafe", tier: "common" },
+  { id: "skiLodge", name: "Cozy Ski Lodge", description: "Fireside relaxation", baseCost: 200000, baseIncome: 6250, districtId: "mountain", owned: 0, level: 1, iconType: "skiLodge", tier: "rare" },
+  { id: "icePalace", name: "Ice Crystal Palace", description: "Frozen majesty", baseCost: 500000, baseIncome: 17500, districtId: "mountain", owned: 0, level: 1, iconType: "icePalace", tier: "legendary" },
   
-  { id: "pyramid", name: "Ancient Pyramid", description: "Mysterious treasures", baseCost: 250000, baseIncome: 5000, districtId: "desert", owned: 0, level: 1, iconType: "pyramid" },
-  { id: "oasis", name: "Oasis Well", description: "Life in the desert", baseCost: 400000, baseIncome: 8000, districtId: "desert", owned: 0, level: 1, iconType: "oasis" },
-  { id: "cactus", name: "Cactus Farm", description: "Prickly profits", baseCost: 600000, baseIncome: 12000, districtId: "desert", owned: 0, level: 1, iconType: "cactus" },
+  { id: "pyramid", name: "Ancient Pyramid", description: "Mysterious treasures", baseCost: 250000, baseIncome: 5000, districtId: "desert", owned: 0, level: 1, iconType: "pyramid", tier: "common" },
+  { id: "oasis", name: "Oasis Well", description: "Life in the desert", baseCost: 400000, baseIncome: 8000, districtId: "desert", owned: 0, level: 1, iconType: "oasis", tier: "common" },
+  { id: "cactus", name: "Cactus Farm", description: "Prickly profits", baseCost: 600000, baseIncome: 12000, districtId: "desert", owned: 0, level: 1, iconType: "cactus", tier: "common" },
+  { id: "bazaar", name: "Exotic Bazaar", description: "Rare treasures await", baseCost: 1200000, baseIncome: 30000, districtId: "desert", owned: 0, level: 1, iconType: "bazaar", tier: "rare" },
+  { id: "sultanPalace", name: "Sultan Palace", description: "Royal grandeur", baseCost: 3000000, baseIncome: 84000, districtId: "desert", owned: 0, level: 1, iconType: "sultanPalace", tier: "legendary" },
   
-  { id: "skyscraper", name: "Glass Tower", description: "Touch the clouds", baseCost: 1000000, baseIncome: 20000, districtId: "skyline", owned: 0, level: 1, iconType: "skyscraper" },
-  { id: "fountain", name: "Grand Fountain", description: "City centerpiece", baseCost: 2000000, baseIncome: 40000, districtId: "skyline", owned: 0, level: 1, iconType: "fountain" },
-  { id: "hotel", name: "Luxury Hotel", description: "Five-star dreams", baseCost: 5000000, baseIncome: 100000, districtId: "skyline", owned: 0, level: 1, iconType: "hotel" },
+  { id: "skyscraper", name: "Glass Tower", description: "Touch the clouds", baseCost: 1000000, baseIncome: 20000, districtId: "skyline", owned: 0, level: 1, iconType: "skyscraper", tier: "common" },
+  { id: "fountain", name: "Grand Fountain", description: "City centerpiece", baseCost: 2000000, baseIncome: 40000, districtId: "skyline", owned: 0, level: 1, iconType: "fountain", tier: "common" },
+  { id: "hotel", name: "Luxury Hotel", description: "Five-star dreams", baseCost: 5000000, baseIncome: 100000, districtId: "skyline", owned: 0, level: 1, iconType: "hotel", tier: "common" },
+  { id: "rooftopGarden", name: "Sky Garden", description: "Urban paradise", baseCost: 10000000, baseIncome: 250000, districtId: "skyline", owned: 0, level: 1, iconType: "rooftopGarden", tier: "rare" },
+  { id: "penthouse", name: "Diamond Penthouse", description: "Ultimate luxury", baseCost: 25000000, baseIncome: 700000, districtId: "skyline", owned: 0, level: 1, iconType: "penthouse", tier: "legendary" },
 ];
 
 const STORAGE_KEY = "tiny_town_game_state";
@@ -99,12 +119,46 @@ export const loadGameState = async (): Promise<GameState> => {
     const savedState = await AsyncStorage.getItem(STORAGE_KEY);
     if (savedState) {
       const state = JSON.parse(savedState) as GameState;
-      return calculateOfflineEarnings(state);
+      const migratedState = migrateGameState(state);
+      return calculateOfflineEarnings(migratedState);
     }
   } catch (error) {
     console.error("Failed to load game state:", error);
   }
   return getDefaultGameState();
+};
+
+const migrateGameState = (state: GameState): GameState => {
+  const existingBuildingIds = new Set(state.buildings.map(b => b.id));
+  const migratedBuildings: Building[] = [];
+  
+  for (const building of state.buildings) {
+    const defaultBuilding = BUILDINGS.find(b => b.id === building.id);
+    if (defaultBuilding) {
+      migratedBuildings.push({
+        ...building,
+        tier: building.tier ?? defaultBuilding.tier,
+        iconType: defaultBuilding.iconType,
+      });
+    }
+  }
+  
+  for (const defaultBuilding of BUILDINGS) {
+    if (!existingBuildingIds.has(defaultBuilding.id)) {
+      migratedBuildings.push({ ...defaultBuilding });
+    }
+  }
+  
+  migratedBuildings.sort((a, b) => {
+    const aIndex = BUILDINGS.findIndex(bb => bb.id === a.id);
+    const bIndex = BUILDINGS.findIndex(bb => bb.id === b.id);
+    return aIndex - bIndex;
+  });
+  
+  return {
+    ...state,
+    buildings: migratedBuildings,
+  };
 };
 
 export const calculateOfflineEarnings = (state: GameState): GameState => {
