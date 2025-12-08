@@ -11,6 +11,10 @@ build = ["sh", "-c", "npm run expo:static:build && npm run server:build"]
 run = ["npm", "run", "server:prod"]
 
 [[ports]]
+localPort = 35825
+externalPort = 3000
+
+[[ports]]
 localPort = 40407
 externalPort = 80
 
@@ -40,6 +44,8 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run all:dev"
-waitForPort = 8081
-ensurePreviewReachable = "/status"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 

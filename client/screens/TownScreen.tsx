@@ -9,6 +9,7 @@ import {
   Alert,
   Text,
   Dimensions,
+  Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -27,7 +28,8 @@ import Animated, {
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
-import LottieView from "lottie-react-native";
+// Only import LottieView on native platforms to avoid web bundling issues
+const LottieView = Platform.OS !== 'web' ? require("lottie-react-native").default : null;
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
@@ -66,7 +68,7 @@ export default function TownScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
-  const lottieRef = useRef<LottieView>(null);
+  const lottieRef = useRef<any>(null);
 
   // Flying coin animation state
   const coinX = useSharedValue(0);
@@ -254,10 +256,12 @@ export default function TownScreen() {
     coinBurstOpacity.value = withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) });
     coinBurstY.value = withTiming(-60, { duration: 600, easing: Easing.out(Easing.ease) });
 
-    // Trigger Lottie coin animation
-    setShowCoinAnimation(true);
-    lottieRef.current?.play();
-    setTimeout(() => setShowCoinAnimation(false), 1500);
+    // Trigger Lottie coin animation (native only)
+    if (Platform.OS !== 'web') {
+      setShowCoinAnimation(true);
+      lottieRef.current?.play();
+      setTimeout(() => setShowCoinAnimation(false), 1500);
+    }
 
     tapChest();
   };
@@ -382,8 +386,8 @@ export default function TownScreen() {
       </View>
 
       <View style={[styles.chestContainer, { bottom: tabBarHeight + Spacing.xl + 10 }]}>
-        {/* Lottie Coin Animation */}
-        {showCoinAnimation && (
+        {/* Lottie Coin Animation (native only) */}
+        {showCoinAnimation && Platform.OS !== 'web' && LottieView ? (
           <View style={styles.lottieContainer} pointerEvents="none">
             <LottieView
               ref={lottieRef}
@@ -393,7 +397,7 @@ export default function TownScreen() {
               loop={false}
             />
           </View>
-        )}
+        ) : null}
         
         {/* Coin particle effect on chest */}
         <View style={styles.chestParticles} pointerEvents="none">
