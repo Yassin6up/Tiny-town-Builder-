@@ -67,10 +67,10 @@
       { "name": "particle-coin", "path": "svg/fx/particle-coin.svg", "size": "48x48", "usage": "Floating coin particle" }
     ],
     "diamondShop": [
-      { "name": "pack-small", "path": "webp/diamond-shop/pack-small.png", "size": "512x512", "usage": "Small diamond pack purchase option" },
-      { "name": "pack-medium", "path": "webp/diamond-shop/pack-medium.png", "size": "640x640", "usage": "Medium diamond pack purchase option" },
-      { "name": "pack-large", "path": "webp/diamond-shop/pack-large.png", "size": "768x768", "usage": "Large diamond pack purchase option" },
-      { "name": "shop-banner", "path": "webp/diamond-shop/shop-banner.png", "size": "1440x600", "usage": "Shop header banner" }
+      { "name": "pack-small", "path": "webp/diamond-shop/pack-small.webp", "size": "1024x1024", "usage": "Small diamond pack purchase option" },
+      { "name": "pack-medium", "path": "webp/diamond-shop/pack-medium.webp", "size": "1024x1024", "usage": "Medium diamond pack purchase option" },
+      { "name": "pack-large", "path": "webp/diamond-shop/pack-large.webp", "size": "1024x1024", "usage": "Large diamond pack purchase option" },
+      { "name": "shop-banner", "path": "webp/diamond-shop/shop-banner.webp", "size": "1408x768", "usage": "Shop header banner" }
     ]
   },
   "recommendedSizes": {
