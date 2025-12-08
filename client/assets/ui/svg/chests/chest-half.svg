@@ -1,0 +1,30 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="woodMainH" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="50%" stop-color="#8B5A2B"/>
+      <stop offset="100%" stop-color="#5D3A1A"/>
+    </linearGradient>
+    <linearGradient id="goldTrimH" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="50%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#CC9900"/>
+    </linearGradient>
+    <radialGradient id="innerGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFF88"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </radialGradient>
+    <filter id="chestShadowH" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#2A1A0A" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect x="32" y="120" width="192" height="100" rx="8" fill="url(#woodMainH)" filter="url(#chestShadowH)"/>
+  <ellipse cx="128" cy="130" rx="88" ry="30" fill="url(#innerGlow)"/>
+  <path d="M40,130 L40,70 Q128,30 216,70 L216,90 Q128,60 40,90 Z" fill="url(#woodMainH)" transform="rotate(-15,128,100)"/>
+  <rect x="40" y="128" width="176" height="8" rx="4" fill="url(#goldTrimH)"/>
+  <rect x="40" y="188" width="176" height="8" rx="4" fill="url(#goldTrimH)"/>
+  <circle cx="80" cy="150" r="12" fill="#FFD700" opacity="0.8"/>
+  <circle cx="128" cy="145" r="14" fill="#FFD700" opacity="0.9"/>
+  <circle cx="176" cy="150" r="12" fill="#FFD700" opacity="0.8"/>
+  <ellipse cx="70" cy="60" rx="16" ry="6" fill="#FFFFFF" opacity="0.4"/>
+</svg>

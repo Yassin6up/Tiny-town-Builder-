@@ -1,0 +1,31 @@
+<svg viewBox="0 0 720 480" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shopBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1A237E"/>
+      <stop offset="50%" stop-color="#283593"/>
+      <stop offset="100%" stop-color="#3949AB"/>
+    </linearGradient>
+    <linearGradient id="shopFrame" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7C4DFF"/>
+      <stop offset="50%" stop-color="#651FFF"/>
+      <stop offset="100%" stop-color="#4A148C"/>
+    </linearGradient>
+    <radialGradient id="shopSparkle" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E1BEE7" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#E1BEE7" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shopShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0D0D30" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="16" y="16" width="688" height="448" rx="24" fill="url(#shopFrame)" filter="url(#shopShadow)"/>
+  <rect x="28" y="28" width="664" height="424" rx="18" fill="url(#shopBg)"/>
+  <circle cx="100" cy="100" r="60" fill="url(#shopSparkle)"/>
+  <circle cx="620" cy="380" r="80" fill="url(#shopSparkle)"/>
+  <circle cx="360" cy="60" r="40" fill="url(#shopSparkle)"/>
+  <circle cx="80" cy="80" r="3" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="200" cy="120" r="2" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="500" cy="80" r="2" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="600" cy="200" r="3" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="150" cy="400" r="2" fill="#FFFFFF" opacity="0.6"/>
+</svg>

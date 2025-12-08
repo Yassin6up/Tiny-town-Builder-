@@ -1,0 +1,25 @@
+<svg viewBox="0 0 512 384" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="woodPanelMain" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="50%" stop-color="#A0522D"/>
+      <stop offset="100%" stop-color="#6B3A1A"/>
+    </linearGradient>
+    <linearGradient id="woodFrame" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8B5A2B"/>
+      <stop offset="100%" stop-color="#5D3A1A"/>
+    </linearGradient>
+    <filter id="panelShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#2A1A0A" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <rect x="16" y="16" width="480" height="352" rx="24" fill="url(#woodFrame)" filter="url(#panelShadow)"/>
+  <rect x="28" y="28" width="456" height="328" rx="18" fill="url(#woodPanelMain)"/>
+  <rect x="28" y="28" width="456" height="60" rx="18" fill="#FFFFFF" opacity="0.15"/>
+  <line x1="40" y1="100" x2="472" y2="100" stroke="#5D3A1A" stroke-width="2" opacity="0.3"/>
+  <line x1="40" y1="200" x2="472" y2="200" stroke="#5D3A1A" stroke-width="2" opacity="0.2"/>
+  <circle cx="32" cy="32" r="10" fill="#5D3A1A"/>
+  <circle cx="480" cy="32" r="10" fill="#5D3A1A"/>
+  <circle cx="32" cy="352" r="10" fill="#5D3A1A"/>
+  <circle cx="480" cy="352" r="10" fill="#5D3A1A"/>
+</svg>

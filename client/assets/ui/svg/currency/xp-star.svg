@@ -1,0 +1,20 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="starGold" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#FFF59D"/>
+      <stop offset="40%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FF8C00"/>
+    </radialGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFF00" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFFF00" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="starShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#CC7000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <circle cx="64" cy="64" r="50" fill="url(#starGlow)"/>
+  <polygon points="64,8 76,44 114,48 86,74 94,112 64,92 34,112 42,74 14,48 52,44" fill="url(#starGold)" filter="url(#starShadow)"/>
+  <polygon points="64,20 72,44 96,46 78,62 84,88 64,76 44,88 50,62 32,46 56,44" fill="#FFE566" opacity="0.4"/>
+  <ellipse cx="52" cy="40" rx="8" ry="6" fill="#FFFFFF" opacity="0.7"/>
+</svg>

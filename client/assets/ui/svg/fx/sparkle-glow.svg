@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="sparkleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#FFFFA0"/>
+      <stop offset="100%" stop-color="#FFFF00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#sparkleGlow)"/>
+  <polygon points="32,4 36,28 60,32 36,36 32,60 28,36 4,32 28,28" fill="#FFFFFF"/>
+  <polygon points="32,12 34,28 52,32 34,34 32,52 30,34 12,32 30,28" fill="#FFFFA0" opacity="0.8"/>
+</svg>

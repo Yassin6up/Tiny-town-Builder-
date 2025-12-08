@@ -1,0 +1,38 @@
+<svg viewBox="0 0 256 280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="woodMainO" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="50%" stop-color="#8B5A2B"/>
+      <stop offset="100%" stop-color="#5D3A1A"/>
+    </linearGradient>
+    <linearGradient id="goldTrimO" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="50%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#CC9900"/>
+    </linearGradient>
+    <radialGradient id="treasureGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FFFFAA"/>
+      <stop offset="50%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#CC9900"/>
+    </radialGradient>
+    <radialGradient id="lightBeam" cx="50%" cy="100%" r="80%">
+      <stop offset="0%" stop-color="#FFFF00" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFFF00" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="chestShadowO" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#2A1A0A" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <ellipse cx="128" cy="60" rx="100" ry="60" fill="url(#lightBeam)"/>
+  <rect x="32" y="140" width="192" height="100" rx="8" fill="url(#woodMainO)" filter="url(#chestShadowO)"/>
+  <ellipse cx="128" cy="150" rx="88" ry="35" fill="url(#treasureGlow)"/>
+  <path d="M40,100 L40,40 Q128,-10 216,40 L216,60 Q128,20 40,60 Z" fill="url(#woodMainO)" transform="rotate(-35,128,100)"/>
+  <rect x="40" y="148" width="176" height="8" rx="4" fill="url(#goldTrimO)"/>
+  <rect x="40" y="208" width="176" height="8" rx="4" fill="url(#goldTrimO)"/>
+  <circle cx="80" cy="165" r="14" fill="#FFD700"/>
+  <circle cx="128" cy="158" r="18" fill="#FFD700"/>
+  <circle cx="176" cy="165" r="14" fill="#FFD700"/>
+  <circle cx="104" cy="175" r="10" fill="#DC143C"/>
+  <circle cx="152" cy="175" r="10" fill="#4169E1"/>
+  <ellipse cx="56" cy="40" rx="14" ry="6" fill="#FFFFFF" opacity="0.5"/>
+</svg>

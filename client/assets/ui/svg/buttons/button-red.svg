@@ -1,0 +1,16 @@
+<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="redBtn" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF8888"/>
+      <stop offset="30%" stop-color="#DC143C"/>
+      <stop offset="100%" stop-color="#8B0000"/>
+    </linearGradient>
+    <filter id="redShadow" x="-5%" y="-5%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#4A0000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="304" height="104" rx="20" fill="#4A0000"/>
+  <rect x="8" y="4" width="304" height="100" rx="20" fill="url(#redBtn)" filter="url(#redShadow)"/>
+  <rect x="16" y="12" width="288" height="40" rx="16" fill="#FFFFFF" opacity="0.3"/>
+  <rect x="24" y="16" width="120" height="20" rx="10" fill="#FFFFFF" opacity="0.4"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="woodBtn" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="30%" stop-color="#A0522D"/>
+      <stop offset="100%" stop-color="#5D3A1A"/>
+    </linearGradient>
+    <pattern id="woodGrain" width="20" height="20" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="5" x2="20" y2="5" stroke="#8B5A2B" stroke-width="1" opacity="0.3"/>
+      <line x1="0" y1="15" x2="20" y2="15" stroke="#8B5A2B" stroke-width="1" opacity="0.2"/>
+    </pattern>
+    <filter id="woodShadow" x="-5%" y="-5%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#2A1A0A" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="304" height="104" rx="16" fill="#2A1A0A"/>
+  <rect x="8" y="4" width="304" height="100" rx="16" fill="url(#woodBtn)" filter="url(#woodShadow)"/>
+  <rect x="8" y="4" width="304" height="100" rx="16" fill="url(#woodGrain)"/>
+  <rect x="16" y="12" width="288" height="36" rx="14" fill="#FFFFFF" opacity="0.2"/>
+  <circle cx="24" cy="52" r="8" fill="#8B5A2B"/>
+  <circle cx="296" cy="52" r="8" fill="#8B5A2B"/>
+</svg>

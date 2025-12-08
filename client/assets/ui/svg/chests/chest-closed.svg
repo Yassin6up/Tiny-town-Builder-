@@ -1,0 +1,27 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="woodMain" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="50%" stop-color="#8B5A2B"/>
+      <stop offset="100%" stop-color="#5D3A1A"/>
+    </linearGradient>
+    <linearGradient id="goldTrim" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="50%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#CC9900"/>
+    </linearGradient>
+    <filter id="chestShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#2A1A0A" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect x="32" y="100" width="192" height="120" rx="8" fill="url(#woodMain)" filter="url(#chestShadow)"/>
+  <rect x="32" y="100" width="192" height="20" fill="#5D3A1A" opacity="0.3"/>
+  <path d="M32,100 Q128,60 224,100 L224,140 Q128,100 32,140 Z" fill="url(#woodMain)"/>
+  <path d="M32,100 Q128,70 224,100" fill="none" stroke="#D4A574" stroke-width="3" opacity="0.5"/>
+  <rect x="40" y="108" width="176" height="8" rx="4" fill="url(#goldTrim)"/>
+  <rect x="40" y="180" width="176" height="8" rx="4" fill="url(#goldTrim)"/>
+  <rect x="108" y="140" width="40" height="50" rx="6" fill="url(#goldTrim)"/>
+  <circle cx="128" cy="165" r="10" fill="#CC9900"/>
+  <circle cx="128" cy="165" r="6" fill="#5D3A1A"/>
+  <ellipse cx="80" cy="88" rx="20" ry="8" fill="#FFFFFF" opacity="0.3"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 512 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hudBarBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4A" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#2A2A2A" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="hudHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="80" rx="0" ry="0" fill="url(#hudBarBg)"/>
+  <rect x="0" y="0" width="512" height="30" fill="url(#hudHighlight)"/>
+  <rect x="16" y="16" width="140" height="48" rx="24" fill="#1A1A1A" opacity="0.5"/>
+  <rect x="172" y="16" width="140" height="48" rx="24" fill="#1A1A1A" opacity="0.5"/>
+  <rect x="328" y="16" width="168" height="48" rx="24" fill="#1A1A1A" opacity="0.5"/>
+</svg>

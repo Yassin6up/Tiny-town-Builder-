@@ -1,0 +1,15 @@
+<svg viewBox="0 0 300 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="progressBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="100%" stop-color="#1A1A1A"/>
+    </linearGradient>
+    <linearGradient id="progressBorder" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5A5A5A"/>
+      <stop offset="100%" stop-color="#2A2A2A"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="300" height="48" rx="24" fill="url(#progressBorder)"/>
+  <rect x="4" y="4" width="292" height="40" rx="20" fill="url(#progressBg)"/>
+  <rect x="8" y="8" width="284" height="16" rx="8" fill="#FFFFFF" opacity="0.1"/>
+</svg>

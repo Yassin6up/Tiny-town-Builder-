@@ -1,0 +1,92 @@
+{
+  "version": "1.0.0",
+  "description": "Cartoon Kid-Friendly Game UI Kit - Clash of Clans inspired soft style",
+  "style": {
+    "theme": "cartoon-puffy-glossy",
+    "lightSource": "top-left",
+    "outlines": "none-to-subtle",
+    "shadows": "soft-drop-shadow"
+  },
+  "assets": {
+    "currency": {
+      "coins": [
+        { "name": "coin-gold", "path": "svg/currency/coin-gold.svg", "size": "128x128", "usage": "Primary currency icon" },
+        { "name": "coin-silver", "path": "svg/currency/coin-silver.svg", "size": "128x128", "usage": "Secondary currency icon" },
+        { "name": "coin-bronze", "path": "svg/currency/coin-bronze.svg", "size": "128x128", "usage": "Tertiary currency icon" }
+      ],
+      "gems": [
+        { "name": "gem-red", "path": "svg/currency/gem-red.svg", "size": "128x128", "usage": "Premium currency - ruby" },
+        { "name": "gem-blue", "path": "svg/currency/gem-blue.svg", "size": "128x128", "usage": "Premium currency - sapphire" },
+        { "name": "gem-green", "path": "svg/currency/gem-green.svg", "size": "128x128", "usage": "Premium currency - emerald" }
+      ],
+      "special": [
+        { "name": "xp-star", "path": "svg/currency/xp-star.svg", "size": "128x128", "usage": "Experience points indicator" },
+        { "name": "energy-bolt", "path": "svg/currency/energy-bolt.svg", "size": "128x128", "usage": "Energy/stamina indicator" }
+      ]
+    },
+    "chests": [
+      { "name": "chest-closed", "path": "svg/chests/chest-closed.svg", "size": "256x256", "usage": "Locked reward chest" },
+      { "name": "chest-half", "path": "svg/chests/chest-half.svg", "size": "256x256", "usage": "Opening chest animation state" },
+      { "name": "chest-open", "path": "svg/chests/chest-open.svg", "size": "256x280", "usage": "Open chest with rewards visible" }
+    ],
+    "buttons": [
+      { "name": "button-yellow", "path": "svg/buttons/button-yellow.svg", "size": "320x120", "usage": "Primary action button (gold/purchase)" },
+      { "name": "button-green", "path": "svg/buttons/button-green.svg", "size": "320x120", "usage": "Confirm/success action button" },
+      { "name": "button-red", "path": "svg/buttons/button-red.svg", "size": "320x120", "usage": "Cancel/danger action button" },
+      { "name": "button-blue", "path": "svg/buttons/button-blue.svg", "size": "320x120", "usage": "Info/secondary action button" },
+      { "name": "button-wood", "path": "svg/buttons/button-wood.svg", "size": "320x120", "usage": "Themed wood button for menus" },
+      { "name": "button-stone", "path": "svg/buttons/button-stone.svg", "size": "320x120", "usage": "Themed stone button for buildings" }
+    ],
+    "panels": [
+      { "name": "panel-wood", "path": "svg/panels/panel-wood.svg", "size": "512x384", "usage": "Wood-themed popup/modal background" },
+      { "name": "panel-stone", "path": "svg/panels/panel-stone.svg", "size": "512x384", "usage": "Stone-themed popup/modal background" },
+      { "name": "popup-gold", "path": "svg/panels/popup-gold.svg", "size": "480x360", "usage": "Gold/premium reward popup" },
+      { "name": "popup-reward", "path": "svg/panels/popup-reward.svg", "size": "512x400", "usage": "General reward popup" },
+      { "name": "shop-background", "path": "svg/panels/shop-background.svg", "size": "720x480", "usage": "In-game shop background" }
+    ],
+    "hud": [
+      { "name": "hud-top-bar", "path": "svg/hud/hud-top-bar.svg", "size": "512x80", "usage": "Top HUD bar with currency slots" },
+      { "name": "ribbon", "path": "svg/hud/ribbon.svg", "size": "256x80", "usage": "Title ribbon for headers" },
+      { "name": "progress-bar-empty", "path": "svg/hud/progress-bar-empty.svg", "size": "300x48", "usage": "Empty progress bar background" },
+      { "name": "progress-bar-full", "path": "svg/hud/progress-bar-full.svg", "size": "300x48", "usage": "Filled progress bar" }
+    ],
+    "badges": [
+      { "name": "badge-level-bronze", "path": "svg/badges/badge-level-bronze.svg", "size": "128x128", "usage": "Bronze tier level badge" },
+      { "name": "badge-level-silver", "path": "svg/badges/badge-level-silver.svg", "size": "128x128", "usage": "Silver tier level badge" },
+      { "name": "badge-level-gold", "path": "svg/badges/badge-level-gold.svg", "size": "128x128", "usage": "Gold tier level badge" }
+    ],
+    "icons": [
+      { "name": "upgrade-arrow", "path": "svg/icons/upgrade-arrow.svg", "size": "96x96", "usage": "Upgrade/level up indicator" },
+      { "name": "lock-icon", "path": "svg/icons/lock-icon.svg", "size": "96x96", "usage": "Locked content indicator" },
+      { "name": "axe-icon", "path": "svg/icons/axe-icon.svg", "size": "96x96", "usage": "Resource gathering/woodcutting" },
+      { "name": "wood-log", "path": "svg/icons/wood-log.svg", "size": "96x96", "usage": "Wood resource icon" },
+      { "name": "building-slot-frame", "path": "svg/icons/building-slot-frame.svg", "size": "256x256", "usage": "Empty building slot frame" }
+    ],
+    "fx": [
+      { "name": "sparkle-glow", "path": "svg/fx/sparkle-glow.svg", "size": "64x64", "usage": "Sparkle/glow particle effect" },
+      { "name": "particle-coin", "path": "svg/fx/particle-coin.svg", "size": "48x48", "usage": "Floating coin particle" }
+    ],
+    "diamondShop": [
+      { "name": "pack-small", "path": "webp/diamond-shop/pack-small.png", "size": "512x512", "usage": "Small diamond pack purchase option" },
+      { "name": "pack-medium", "path": "webp/diamond-shop/pack-medium.png", "size": "640x640", "usage": "Medium diamond pack purchase option" },
+      { "name": "pack-large", "path": "webp/diamond-shop/pack-large.png", "size": "768x768", "usage": "Large diamond pack purchase option" },
+      { "name": "shop-banner", "path": "webp/diamond-shop/shop-banner.png", "size": "1440x600", "usage": "Shop header banner" }
+    ]
+  },
+  "recommendedSizes": {
+    "currencyIcons": { "display": "48-64px", "export": "128x128" },
+    "buttons": { "display": "160-200px width", "export": "320x120" },
+    "panels": { "display": "responsive", "export": "original" },
+    "badges": { "display": "48-96px", "export": "128x128" },
+    "smallIcons": { "display": "24-48px", "export": "96x96" },
+    "particles": { "display": "16-32px", "export": "48-64" },
+    "chests": { "display": "128-192px", "export": "256x256" }
+  },
+  "usageNotes": {
+    "scaling": "All SVG assets scale without quality loss. Use display sizes for optimal performance.",
+    "buttons": "Buttons use 9-slice compatible design. Scale width as needed, maintain height ratio.",
+    "panels": "Panels support 9-slice scaling for responsive layouts.",
+    "colors": "Consistent warm lighting from top-left. Glossy highlights on upper-left of round objects.",
+    "performance": "SVGs optimized with minimal path count (<150 per asset). Use PNG/WebP exports for older devices."
+  }
+}
