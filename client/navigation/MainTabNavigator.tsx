@@ -9,6 +9,8 @@ import ShopScreen from "@/screens/ShopScreen";
 import StatsScreen from "@/screens/StatsScreen";
 import { useTheme } from "@/hooks/useTheme";
 import { Colors, Spacing, BorderRadius } from "@/constants/theme";
+import { ShopSvgIcon } from "@/components/icons/ShopSvgIcon";
+import { StatisticSvgIcon } from "@/components/icons/StatisticSvgIcon";
 
 export type MainTabParamList = {
   TownTab: undefined;
@@ -26,33 +28,32 @@ export default function MainTabNavigator() {
     <Tab.Navigator
       initialRouteName="TownTab"
       screenOptions={{
-        tabBarActiveTintColor: theme.sage,
-        tabBarInactiveTintColor: theme.tabIconDefault,
+        tabBarActiveTintColor: "#FF6B9D",
+        tabBarInactiveTintColor: "#9E9E9E",
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: Platform.select({
-            ios: "transparent",
-            android: theme.backgroundDefault,
-          }),
-          borderTopWidth: 0,
-          elevation: 0,
-          height: 60 + insets.bottom,
-          paddingBottom: insets.bottom,
+          backgroundColor: "#FFFFFF",
+          borderTopWidth: 5,
+          borderTopColor: "#D4E9F7",
+          elevation: 15,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: -6 },
+          shadowOpacity: 0.25,
+          shadowRadius: 16,
+          height: 80 + insets.bottom,
+          paddingBottom: insets.bottom + 12,
+          paddingTop: 14,
+          borderTopLeftRadius: 36,
+          borderTopRightRadius: 36,
         },
         tabBarLabelStyle: {
-          fontFamily: "Nunito",
+          fontFamily: "Nunito-Bold",
           fontSize: 12,
-          fontWeight: "600",
+          fontWeight: "700",
+          marginTop: -2,
         },
-        tabBarBackground: () =>
-          Platform.OS === "ios" ? (
-            <BlurView
-              intensity={100}
-              tint={isDark ? "dark" : "light"}
-              style={StyleSheet.absoluteFill}
-            />
-          ) : null,
         headerShown: false,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen
@@ -60,8 +61,15 @@ export default function MainTabNavigator() {
         component={TownScreen}
         options={{
           title: "Town",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <View
+              style={[
+                styles.iconWrapper,
+                focused && styles.iconWrapperActive,
+              ]}
+            >
+              <Feather name="home" size={focused ? 28 : 24} color={color} />
+            </View>
           ),
         }}
       />
@@ -75,15 +83,12 @@ export default function MainTabNavigator() {
               style={[
                 styles.shopIconContainer,
                 {
-                  backgroundColor: focused ? theme.sage : theme.backgroundSecondary,
+                  backgroundColor: focused ? "#00E676" : "#E8F4FD",
+                  transform: [{ scale: focused ? 1.15 : 1 }],
                 },
               ]}
             >
-              <Feather
-                name="shopping-bag"
-                size={size + 4}
-                color={focused ? Colors.light.warmWhite : color}
-              />
+              <ShopSvgIcon size={focused ? 44 : 40} />
             </View>
           ),
         }}
@@ -93,8 +98,15 @@ export default function MainTabNavigator() {
         component={StatsScreen}
         options={{
           title: "Stats",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="bar-chart-2" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <View
+              style={[
+                styles.iconWrapper,
+                focused && styles.iconWrapperActive,
+              ]}
+            >
+              <StatisticSvgIcon size={focused ? 38 : 34} />
+            </View>
           ),
         }}
       />
@@ -103,12 +115,35 @@ export default function MainTabNavigator() {
 }
 
 const styles = StyleSheet.create({
-  shopIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: BorderRadius.full,
+  iconWrapper: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -Spacing.lg,
+    backgroundColor: "transparent",
+  },
+  iconWrapperActive: {
+    backgroundColor: "#FFE8F0",
+    shadowColor: "#FF6B9D",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  shopIconContainer: {
+    width: 75,
+    height: 75,
+    borderRadius: 38,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: -30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    elevation: 12,
+    borderWidth: 5,
+    borderColor: "#FFFFFF",
   },
 });

@@ -15,13 +15,15 @@ import * as Haptics from "expo-haptics";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { useGame } from "@/lib/GameContext";
+import { useMusic } from "@/lib/MusicContext";
 import { Building, DistrictId, formatNumber, getBuildingCost } from "@/lib/gameData";
 import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { CoinIcon } from "@/components/CoinIcon";
 import { BuildingIcon } from "@/components/BuildingIcon";
 import { ShopCard } from "@/components/ShopCard";
-
+import { Audio } from "expo-av";
+import { WoodTextureSvg } from "@/components/textures";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const DISTRICT_FILTERS: { id: DistrictId | "all"; label: string }[] = [
@@ -39,16 +41,41 @@ export default function ShopScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const { state, buyBuilding } = useGame();
+  const { setMusicVolume } = useMusic();
   const [selectedFilter, setSelectedFilter] = useState<DistrictId | "all">("all");
+
+  // Lower music volume when on shop screen
+  React.useEffect(() => {
+    setMusicVolume(0.2);
+    return () => {
+      setMusicVolume(0.5); // Restore volume when leaving shop
+    };
+  }, [setMusicVolume]);
 
   const filteredBuildings = state.buildings.filter(b => {
     if (selectedFilter === "all") return true;
     return b.districtId === selectedFilter;
   });
 
-  const handleBuyBuilding = (buildingId: string) => {
+  const handleBuyBuilding = async (buildingId: string) => {
+    
     const success = buyBuilding(buildingId);
     if (success) {
+      try {
+                              const { sound } = await Audio.Sound.createAsync(
+                                require('../../assets/sounds/cash.mp3'),
+                                { shouldPlay: true }
+                              );
+                              sound.setOnPlaybackStatusUpdate((status) => {
+                                if (status.isLoaded && status.didJustFinish) {
+                                  sound.unloadAsync();
+                                }
+                              });
+                            } catch (error) {
+                              console.log('Failed to play cash sound:', error);
+                            }
+                            
+    
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -73,14 +100,16 @@ export default function ShopScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View style={[styles.container, { backgroundColor: "#E8F4FD" }]}>
       <View style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}>
-        <ThemedText style={styles.title}>Building Shop</ThemedText>
-        <View style={[styles.coinDisplay, { backgroundColor: theme.cornsilk }]}>
-          <CoinIcon size={20} />
-          <ThemedText style={styles.coinText}>
-            {formatNumber(state.coins)}
-          </ThemedText>
+        <ThemedText style={styles.title}>🏪 Building Shop</ThemedText>
+        <View style={styles.coinDisplay}>
+          <View style={styles.coinDisplayInner}>
+            <CoinIcon size={36} />
+            <ThemedText style={styles.coinText}>
+              {formatNumber(state.coins)}
+            </ThemedText>
+          </View>
         </View>
       </View>
 
@@ -97,28 +126,37 @@ export default function ShopScreen() {
             const isLocked = item.id !== "all" && !district?.unlocked;
 
             return (
-              <Pressable
-                onPress={() => setSelectedFilter(item.id)}
-                style={[
-                  styles.filterButton,
-                  {
-                    backgroundColor: isSelected ? theme.sage : theme.backgroundDefault,
-                    opacity: isLocked ? 0.5 : 1,
-                  },
-                ]}
-              >
+              <View style={styles.filterButtonWrapper}>
+                <View style={styles.filterButtonTexture}>
+                  <WoodTextureSvg 
+                    width={100} 
+                    height={40} 
+                    variant={isSelected ? "rich" : "light"} 
+                    borderRadius={20} 
+                  />
+                </View>
+                <Pressable
+                  onPress={() => setSelectedFilter(item.id)}
+                  style={[styles.filterButton, { opacity: isLocked ? 0.6 : 1 }]}
+                >
                 {isLocked ? (
-                  <Feather name="lock" size={12} color={theme.lockGray} style={{ marginRight: 4 }} />
+                  <Feather name="lock" size={12} color="#FFFFFF" style={{ marginRight: 4 }} />
                 ) : null}
                 <ThemedText
                   style={[
                     styles.filterText,
-                    { color: isSelected ? Colors.light.warmWhite : theme.text },
+                    { 
+                      color: "#FFFFFF",
+                      textShadowColor: "rgba(0, 0, 0, 0.5)",
+                      textShadowOffset: { width: 1, height: 1 },
+                      textShadowRadius: 2,
+                    },
                   ]}
                 >
                   {item.label}
                 </ThemedText>
-              </Pressable>
+                </Pressable>
+              </View>
             );
           }}
         />
@@ -152,22 +190,34 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "FredokaOne",
-    fontSize: 28,
-    color: Colors.light.darkWood,
+    fontSize: 34,
+    color: "#2D3748",
+    textShadowColor: "#FFFFFF",
+    textShadowOffset: { width: 3, height: 3 },
+    textShadowRadius: 6,
   },
   coinDisplay: {
+    shadowColor: "#FFD700",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  coinDisplayInner: {
     flexDirection: "row",
     alignItems: "center",
     gap: Spacing.sm,
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: Spacing.md + 4,
+    paddingVertical: Spacing.sm + 2,
     borderRadius: BorderRadius.full,
-    ...Shadows.card,
+    borderWidth: 3,
+    borderColor: "#FFE066",
   },
   coinText: {
     fontFamily: "FredokaOne",
-    fontSize: 16,
-    color: Colors.light.gold,
+    fontSize: 18,
+    color: "#FFB74D",
   },
   filterContainer: {
     marginBottom: Spacing.md,
@@ -176,15 +226,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     gap: Spacing.sm,
   },
+  filterButtonWrapper: {
+    position: "relative",
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "#8B6914",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+    overflow: "hidden",
+  },
+  filterButtonTexture: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
   filterButton: {
+    position: "relative",
+    zIndex: 1,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
-    borderRadius: BorderRadius.full,
+    paddingHorizontal: Spacing.md + 8,
+    paddingVertical: Spacing.sm + 6,
+    borderRadius: 20,
   },
   filterText: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: "Nunito-Bold",
     fontSize: 14,
   },
 });

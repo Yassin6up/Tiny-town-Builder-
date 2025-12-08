@@ -7,6 +7,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { CoinIcon } from "@/components/CoinIcon";
 import { formatNumber } from "@/lib/gameData";
 import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
+import { WoodTextureSvg, GoldTextureSvg } from "@/components/textures";
 
 interface OfflineEarningsModalProps {
   visible: boolean;
@@ -32,7 +33,11 @@ export function OfflineEarningsModal({
       onRequestClose={onDismiss}
     >
       <View style={styles.overlay}>
-        <View style={styles.modalContent}>
+        <View style={styles.modalWrapper}>
+          <View style={styles.modalTexture}>
+            <WoodTextureSvg width={320} height={360} variant="light" borderRadius={16} />
+          </View>
+          <View style={styles.modalContent}>
           <View style={styles.iconContainer}>
             <Feather name="moon" size={40} color={Colors.light.skyBlue} />
           </View>
@@ -49,9 +54,15 @@ export function OfflineEarningsModal({
             </ThemedText>
           </View>
 
-          <Pressable onPress={handleCollect} style={styles.collectButton}>
-            <ThemedText style={styles.collectButtonText}>Collect!</ThemedText>
-          </Pressable>
+          <View style={styles.collectButtonWrapper}>
+            <View style={styles.collectButtonTexture}>
+              <GoldTextureSvg width={200} height={56} variant="bright" borderRadius={28} />
+            </View>
+            <Pressable onPress={handleCollect} style={styles.collectButton}>
+              <ThemedText style={styles.collectButtonText}>Collect!</ThemedText>
+            </Pressable>
+          </View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -66,14 +77,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: Spacing.xl,
   },
+  modalWrapper: {
+    position: "relative",
+    width: "100%",
+    maxWidth: 320,
+    borderRadius: 16,
+    borderWidth: 4,
+    borderColor: "#8B6914",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 12,
+    overflow: "hidden",
+  },
+  modalTexture: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
   modalContent: {
-    backgroundColor: Colors.light.cornsilk,
-    borderRadius: BorderRadius.lg,
+    position: "relative",
+    zIndex: 1,
+    borderRadius: 16,
     padding: Spacing["3xl"],
     alignItems: "center",
     width: "100%",
-    maxWidth: 320,
-    ...Shadows.floating,
   },
   iconContainer: {
     width: 80,
@@ -107,18 +139,44 @@ const styles = StyleSheet.create({
   earningsAmount: {
     fontFamily: "FredokaOne",
     fontSize: 36,
-    color: Colors.light.gold,
+    color: "#FFD700",
+    textShadowColor: "rgba(0, 0, 0, 0.3)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  collectButtonWrapper: {
+    position: "relative",
+    borderRadius: 28,
+    borderWidth: 3,
+    borderColor: "#8B6914",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    overflow: "hidden",
+  },
+  collectButtonTexture: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
   },
   collectButton: {
-    backgroundColor: Colors.light.sage,
+    position: "relative",
+    zIndex: 1,
     paddingHorizontal: Spacing["3xl"],
     paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.full,
-    ...Shadows.button,
+    borderRadius: 28,
   },
   collectButtonText: {
     fontFamily: "Nunito-Bold",
     fontSize: 18,
-    color: Colors.light.warmWhite,
+    color: "#FFFFFF",
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });

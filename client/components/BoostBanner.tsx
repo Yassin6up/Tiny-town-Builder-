@@ -12,6 +12,7 @@ import Animated, {
 import { ThemedText } from "@/components/ThemedText";
 import { useGame } from "@/lib/GameContext";
 import { Colors, Spacing } from "@/constants/theme";
+import { GoldTextureSvg } from "@/components/textures";
 
 export function BoostBanner() {
   const { state } = useGame();
@@ -53,30 +54,66 @@ export function BoostBanner() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.bannerWrapper}>
+      <View style={styles.bannerTexture}>
+        <GoldTextureSvg width={280} height={50} variant="bright" borderRadius={20} />
+      </View>
+      <View style={styles.container}>
       <Animated.View style={sparkleStyle}>
-        <Feather name="zap" size={16} color={Colors.light.darkWood} />
+        <Feather name="zap" size={16} color="#FFFFFF" />
       </Animated.View>
-      <ThemedText style={styles.text}>
+      <ThemedText style={[styles.text, { 
+        color: "#FFFFFF",
+        textShadowColor: "rgba(0, 0, 0, 0.5)",
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+      }]}>
         2x Income Active
       </ThemedText>
-      <ThemedText style={styles.timer}>{timeRemaining}</ThemedText>
+      <ThemedText style={[styles.timer, {
+        color: "#FFFFFF",
+        textShadowColor: "rgba(0, 0, 0, 0.5)",
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+      }]}>{timeRemaining}</ThemedText>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  bannerWrapper: {
+    position: "relative",
+    marginHorizontal: Spacing.lg,
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "#8B6914",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    overflow: "hidden",
+    zIndex: 10,
+  },
+  bannerTexture: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
   container: {
+    position: "relative",
+    zIndex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: Spacing.sm,
-    backgroundColor: Colors.light.gold,
     paddingVertical: Spacing.sm,
     paddingHorizontal: Spacing.lg,
-    marginHorizontal: Spacing.lg,
     borderRadius: 20,
-    zIndex: 10,
   },
   text: {
     fontFamily: "Nunito-Bold",

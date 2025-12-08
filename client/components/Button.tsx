@@ -1,81 +1,33 @@
 import React, { ReactNode } from "react";
-import { StyleSheet, Pressable, ViewStyle, StyleProp } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  WithSpringConfig,
-} from "react-native-reanimated";
-
-import { ThemedText } from "@/components/ThemedText";
-import { useTheme } from "@/hooks/useTheme";
-import { BorderRadius, Spacing } from "@/constants/theme";
+import { StyleProp, ViewStyle } from "react-native";
+import { CartoonButton } from "./CartoonButton";
 
 interface ButtonProps {
   onPress?: () => void;
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
+  variant?: 'wood' | 'wood-dark' | 'wood-rich' | 'stone' | 'stone-dark' | 'gold' | 'gold-bronze';
 }
-
-const springConfig: WithSpringConfig = {
-  damping: 15,
-  mass: 0.3,
-  stiffness: 150,
-  overshootClamping: true,
-  energyThreshold: 0.001,
-};
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function Button({
   onPress,
   children,
   style,
   disabled = false,
+  variant = 'wood',
 }: ButtonProps) {
-  const { theme } = useTheme();
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  const handlePressIn = () => {
-    if (!disabled) {
-      scale.value = withSpring(0.98, springConfig);
-    }
-  };
-
-  const handlePressOut = () => {
-    if (!disabled) {
-      scale.value = withSpring(1, springConfig);
-    }
-  };
-
+  // Convert children to string for CartoonButton title
+  const title = typeof children === 'string' ? children : String(children);
+  
   return (
-    <AnimatedPressable
-      onPress={disabled ? undefined : onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
+    <CartoonButton
+      title={title}
+      onPress={onPress || (() => {})}
+      variant={variant}
       disabled={disabled}
-      style={[
-        styles.button,
-        {
-          backgroundColor: theme.link,
-          opacity: disabled ? 0.5 : 1,
-        },
-        style,
-        animatedStyle,
-      ]}
-    >
-      <ThemedText
-        type="body"
-        style={[styles.buttonText, { color: theme.buttonText }]}
-      >
-        {children}
-      </ThemedText>
-    </AnimatedPressable>
+      style={style as any}
+    />
   );
 }
 

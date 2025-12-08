@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
 import { useTheme } from "@/hooks/useTheme";
+import { WoodTextureSvg, GoldTextureSvg } from "@/components/textures";
 
 interface BoostCardProps {
   title: string;
@@ -28,7 +29,15 @@ export function BoostCard({
   const { theme } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundDefault }]}>
+    <View style={styles.cardWrapper}>
+      <View style={styles.cardTexture}>
+        {isPremium ? (
+          <GoldTextureSvg width={360} height={100} variant="bright" borderRadius={12} />
+        ) : (
+          <WoodTextureSvg width={360} height={100} variant="light" borderRadius={12} />
+        )}
+      </View>
+      <View style={styles.container}>
       <View
         style={[
           styles.iconContainer,
@@ -57,18 +66,40 @@ export function BoostCard({
       >
         <ThemedText style={styles.buttonText}>{buttonText}</ThemedText>
       </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  cardWrapper: {
+    position: "relative",
+    borderRadius: 12,
+    borderWidth: 3,
+    borderColor: "#8B6914",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
+    overflow: "hidden",
+    marginBottom: Spacing.md,
+  },
+  cardTexture: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
   container: {
+    position: "relative",
+    zIndex: 1,
     flexDirection: "row",
     alignItems: "center",
     padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    marginBottom: Spacing.md,
-    ...Shadows.card,
+    borderRadius: 12,
   },
   iconContainer: {
     width: 48,

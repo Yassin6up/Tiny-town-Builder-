@@ -11,6 +11,7 @@ import * as Font from "expo-font";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
 import { GameProvider } from "@/lib/GameContext";
+import { MusicProvider } from "@/lib/MusicContext";
 
 import RootStackNavigator from "@/navigation/RootStackNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -58,16 +59,18 @@ export default function App() {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <GameProvider>
-          <SafeAreaProvider>
-            <GestureHandlerRootView style={styles.root} onLayout={onLayoutRootView}>
-              <KeyboardProvider>
-                <NavigationContainer>
-                  <RootStackNavigator />
-                </NavigationContainer>
-                <StatusBar style="dark" />
-              </KeyboardProvider>
-            </GestureHandlerRootView>
-          </SafeAreaProvider>
+          <MusicProvider>
+            <SafeAreaProvider>
+              <GestureHandlerRootView style={styles.root} onLayout={onLayoutRootView}>
+                <KeyboardProvider>
+                  <NavigationContainer>
+                    <RootStackNavigator />
+                  </NavigationContainer>
+                  <StatusBar style="dark" />
+                </KeyboardProvider>
+              </GestureHandlerRootView>
+            </SafeAreaProvider>
+          </MusicProvider>
         </GameProvider>
       </QueryClientProvider>
     </ErrorBoundary>

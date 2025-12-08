@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Transparent background -->
+  <g stroke="#0d0d0d" stroke-width="14" stroke-linejoin="round" stroke-linecap="round" fill="none">
+
+    <!-- Stack shadows (subtle cartoon depth) -->
+    <ellipse cx="300" cy="360" rx="110" ry="24" fill="#00000020" stroke="none" />
+
+  </g>
+
+  <!-- Back coins -->
+  <g stroke="#0d0d0d" stroke-width="14" stroke-linejoin="round" fill="#f2b52b">
+    <ellipse cx="340" cy="240" rx="110" ry="60"/>
+    <ellipse cx="340" cy="280" rx="110" ry="60"/>
+    <ellipse cx="340" cy="320" rx="110" ry="60"/>
+  </g>
+
+  <!-- Front coin body -->
+  <g stroke="#0d0d0d" stroke-width="14" stroke-linejoin="round" fill="#ffcc33">
+    <circle cx="200" cy="280" r="120"/>
+  </g>
+
+  <!-- Inner ring -->
+  <circle cx="200" cy="280" r="80" fill="#f4b731" stroke="#0d0d0d" stroke-width="12"/>
+
+  <!-- Highlight -->
+  <path d="M150 240 Q200 200 250 240" stroke="#fff4a6" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+</svg>

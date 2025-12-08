@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+
+  <!-- soft shadow -->
+  <ellipse cx="260" cy="420" rx="120" ry="28" fill="#00000022" stroke="none"/>
+
+  <!-- chart bars -->
+  <g stroke="#0d0d0d" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- bar 1 -->
+    <rect x="150" y="260" width="60" height="140" rx="12" fill="#FFCC33"/>
+
+    <!-- bar 2 -->
+    <rect x="230" y="210" width="60" height="190" rx="12" fill="#FFA53D"/>
+
+    <!-- bar 3 -->
+    <rect x="310" y="160" width="60" height="240" rx="12" fill="#FF7A4D"/>
+
+  </g>
+
+  <!-- highlight line -->
+  <path d="M150 260 Q200 200 260 210 Q320 220 370 160"
+        stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" opacity="0.4" fill="none"/>
+
+</svg>

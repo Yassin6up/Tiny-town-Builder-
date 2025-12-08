@@ -2,26 +2,30 @@ import { Platform } from "react-native";
 
 export const Colors = {
   light: {
-    text: "#5C4033",
-    textSecondary: "#8B7355",
+    text: "#2D3748",
+    textSecondary: "#718096",
     buttonText: "#FFFFFF",
-    tabIconDefault: "#A9A9A9",
-    tabIconSelected: "#8FBC8F",
-    link: "#8FBC8F",
-    backgroundRoot: "#FFFAF0",
-    backgroundDefault: "#FFF8DC",
-    backgroundSecondary: "#F5ECD3",
-    backgroundTertiary: "#EBE1C8",
-    sage: "#8FBC8F",
-    sandyBrown: "#F4A460",
-    skyBlue: "#87CEEB",
-    cornsilk: "#FFF8DC",
-    warmWhite: "#FFFAF0",
-    darkWood: "#5C4033",
+    tabIconDefault: "#A0AEC0",
+    tabIconSelected: "#FF6B9D",
+    link: "#00C9FF",
+    backgroundRoot: "#E8F4FD",
+    backgroundDefault: "#E8F4FD",
+    backgroundSecondary: "#D4E9F7",
+    backgroundTertiary: "#C0DEF0",
+    sage: "#00E676",
+    sandyBrown: "#FFB74D",
+    skyBlue: "#00C9FF",
+    cornsilk: "#FFF9E6",
+    warmWhite: "#FFFBF0",
+    darkWood: "#5D4E37",
     gold: "#FFD700",
-    mutedRed: "#CD5C5C",
-    lockGray: "#A9A9A9",
-    border: "#E8DCC8",
+    mutedRed: "#FF6B6B",
+    lockGray: "#9E9E9E",
+    border: "#B8D4E8",
+    purple: "#BB6BD9",
+    mint: "#1DE9B6",
+    pink: "#FF6B9D",
+    orange: "#FF9F43",
   },
   dark: {
     text: "#FFF8DC",
@@ -63,14 +67,15 @@ export const Spacing = {
 };
 
 export const BorderRadius = {
-  xs: 8,
-  sm: 12,
-  md: 16,
-  lg: 24,
-  xl: 30,
-  "2xl": 40,
-  "3xl": 50,
+  xs: 12,
+  sm: 16,
+  md: 20,
+  lg: 28,
+  xl: 36,
+  "2xl": 44,
+  "3xl": 60,
   full: 9999,
+  cartoon: 50, // Extra bubbly for cartoon style
 };
 
 export const Typography = {
@@ -147,7 +152,22 @@ export const Fonts = Platform.select({
   },
 });
 
+// Cartoon-style dramatic shadows
 export const Shadows = {
+  cartoon: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 12,
+  },
+  cartoonSmall: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 6,
+  },
   card: {
     shadowColor: "#5C4033",
     shadowOffset: { width: 0, height: 1 },

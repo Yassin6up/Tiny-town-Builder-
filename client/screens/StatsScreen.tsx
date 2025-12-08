@@ -16,6 +16,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { Card } from "@/components/Card";
 import { useTheme } from "@/hooks/useTheme";
 import { useGame } from "@/lib/GameContext";
+import { useMusic } from "@/lib/MusicContext";
+import { SettingsSvgIcon } from "@/components/icons/SettingsSvgIcon";
 import { formatNumber } from "@/lib/gameData";
 import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -32,6 +34,15 @@ export default function StatsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const { state, activateAdBoost, purchaseGoldenBoost, purchaseAdFree } = useGame();
+  const { setMusicVolume } = useMusic();
+
+  // Lower music volume when on stats screen
+  React.useEffect(() => {
+    setMusicVolume(0.2);
+    return () => {
+      setMusicVolume(0.5); // Restore volume when leaving stats
+    };
+  }, [setMusicVolume]);
 
   const totalBuildings = state.buildings.reduce((sum, b) => sum + b.owned, 0);
   const unlockedDistricts = state.districts.filter(d => d.unlocked).length;
@@ -49,7 +60,7 @@ export default function StatsScreen() {
           style={styles.settingsButton}
           onPress={() => navigation.navigate("Settings")}
         >
-          <Feather name="settings" size={24} color={theme.darkWood} />
+          <SettingsSvgIcon size={36} />
         </Pressable>
       </View>
 
@@ -63,7 +74,7 @@ export default function StatsScreen() {
       >
         <View style={styles.mainStats}>
           <View style={[styles.incomeCard, { backgroundColor: theme.sage }]}>
-            <CoinIcon size={32} />
+            <CoinIcon size={48} />
             <View style={styles.incomeInfo}>
               <ThemedText style={styles.incomeLabel}>Income per Second</ThemedText>
               <ThemedText style={styles.incomeValue}>
@@ -163,6 +174,7 @@ export default function StatsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
   },
   header: {
     flexDirection: "row",
@@ -174,13 +186,20 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "FredokaOne",
     fontSize: 28,
-    color: Colors.light.darkWood,
+    color: "#2D3748",
   },
   settingsButton: {
     width: 44,
     height: 44,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#F7FAFC",
+    borderRadius: BorderRadius.full,
+    shadowColor: "#4299E1",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 2,
   },
   content: {
     flex: 1,
@@ -194,7 +213,12 @@ const styles = StyleSheet.create({
     padding: Spacing.xl,
     borderRadius: BorderRadius.lg,
     gap: Spacing.lg,
-    ...Shadows.card,
+    backgroundColor: "#48BB78",
+    shadowColor: "#48BB78",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
   },
   incomeInfo: {
     flex: 1,
@@ -202,13 +226,13 @@ const styles = StyleSheet.create({
   incomeLabel: {
     fontFamily: "Nunito",
     fontSize: 14,
-    color: Colors.light.warmWhite,
-    opacity: 0.8,
+    color: "#FFFFFF",
+    opacity: 0.9,
   },
   incomeValue: {
     fontFamily: "FredokaOne",
     fontSize: 32,
-    color: Colors.light.warmWhite,
+    color: "#FFFFFF",
   },
   statsGrid: {
     flexDirection: "row",
@@ -218,8 +242,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: "FredokaOne",
-    fontSize: 18,
-    color: Colors.light.darkWood,
+    fontSize: 20,
+    color: "#2D3748",
     marginBottom: Spacing.md,
   },
   districtBadges: {
@@ -232,13 +256,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    borderRadius: BorderRadius.lg,
     gap: Spacing.md,
     marginBottom: Spacing.md,
+    backgroundColor: "#F0FFF4",
+    borderWidth: 2,
+    borderColor: "#48BB78",
   },
   purchasedText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: 16,
-    color: Colors.light.darkWood,
+    color: "#2D3748",
   },
 });

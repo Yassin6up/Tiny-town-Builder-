@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+
+  <!-- soft ground shadow -->
+  <ellipse cx="260" cy="450" rx="170" ry="30" fill="#00000022" stroke="none"/>
+
+  <g stroke="#0d0d0d" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- Big center tree -->
+    <path d="M220 300 Q260 220 280 180 Q300 220 340 300 Z"
+          fill="#63C25A"/>
+    <rect x="260" y="300" width="38" height="120" rx="12" fill="#8B5A2B"/>
+
+    <!-- Left tall tree -->
+    <path d="M120 320 Q160 250 180 200 Q190 180 200 200 Q220 250 250 320 Z"
+          fill="#6ECF64"/>
+    <rect x="180" y="320" width="30" height="110" rx="10" fill="#8B5A2B"/>
+
+    <!-- Right tall tree -->
+    <path d="M330 320 Q360 260 380 210 Q390 190 400 210 Q420 260 450 320 Z"
+          fill="#73D36B"/>
+    <rect x="380" y="320" width="28" height="110" rx="10" fill="#8B5A2B"/>
+
+    <!-- Small bush left -->
+    <path d="M130 360 Q150 330 180 360 Q150 390 130 360 Z"
+          fill="#7ED66F"/>
+
+    <!-- Small bush right -->
+    <path d="M330 360 Q360 330 390 360 Q360 390 330 360 Z"
+          fill="#7ED66F"/>
+
+    <!-- Grass mound foreground -->
+    <path d="M150 380 Q260 330 370 380 Q260 430 150 380 Z"
+          fill="#5FB757"/>
+
+  </g>
+
+  <!-- highlight on center tree -->
+  <path d="M240 250 Q260 210 300 250"
+        stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.35"/>
+
+</svg>

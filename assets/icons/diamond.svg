@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+
+  <!-- subtle shadow -->
+  <ellipse cx="256" cy="380" rx="110" ry="26" fill="#00000020" stroke="none"/>
+
+  <!-- Diamond shape -->
+  <g stroke="#0d0d0d" stroke-width="14" stroke-linejoin="round">
+
+    <!-- Top polygon (main surface) -->
+    <polygon points="160,200 256,130 352,200 310,260 202,260"
+             fill="#7AD4FF"/>
+
+    <!-- Left facet -->
+    <polygon points="160,200 202,260 256,130"
+             fill="#A6E8FF"/>
+
+    <!-- Right facet -->
+    <polygon points="352,200 310,260 256,130"
+             fill="#96DEFF"/>
+
+    <!-- Bottom facet -->
+    <polygon points="202,260 310,260 256,340"
+             fill="#5CC4EF"/>
+
+  </g>
+
+  <!-- Highlight stroke -->
+  <path d="M195 210 L256 155 L317 210"
+        stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+</svg>

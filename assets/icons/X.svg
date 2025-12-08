@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+
+  <!-- red circle background -->
+  <circle cx="256" cy="256" r="200"
+          fill="#FF4B4B"
+          stroke="#0d0d0d"
+          stroke-width="20"/>
+
+  <!-- X mark -->
+  <g stroke="#0d0d0d" stroke-width="35" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="180" y1="180" x2="332" y2="332"/>
+    <line x1="332" y1="180" x2="180" y2="332"/>
+  </g>
+
+  <!-- soft highlight -->
+  <path d="M160 200 Q256 120 352 200"
+        stroke="white" stroke-width="12" stroke-linecap="round" opacity="0.35" fill="none"/>
+
+</svg>

@@ -16,13 +16,24 @@ import * as Haptics from "expo-haptics";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
+import { StoneTextureSvg } from "@/components/textures";
+import { useMusic } from "@/lib/MusicContext";
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
+  const { isMusicEnabled, toggleMusic, setMusicVolume } = useMusic();
   const [soundEnabled, setSoundEnabled] = React.useState(true);
   const [hapticEnabled, setHapticEnabled] = React.useState(true);
+
+  // Lower music volume when on settings screen
+  React.useEffect(() => {
+    setMusicVolume(0.2);
+    return () => {
+      setMusicVolume(0.5); // Restore volume when leaving settings
+    };
+  }, [setMusicVolume]);
 
   const handleResetData = () => {
     Alert.alert(
@@ -56,8 +67,30 @@ export default function SettingsScreen() {
         paddingHorizontal: Spacing.lg,
       }}
     >
-      <View style={[styles.section, { backgroundColor: theme.backgroundDefault }]}>
+      <View style={styles.sectionWrapper}>
+        <View style={styles.sectionTexture}>
+          <StoneTextureSvg width={360} height={280} variant="gray" borderRadius={12} />
+        </View>
+        <View style={styles.section}>
         <ThemedText style={styles.sectionTitle}>Game Settings</ThemedText>
+
+        <View style={styles.settingRow}>
+          <View style={styles.settingInfo}>
+            <Feather name="music" size={24} color={theme.sage} />
+            <View style={styles.settingText}>
+              <ThemedText style={styles.settingLabel}>Background Music</ThemedText>
+              <ThemedText style={styles.settingDescription}>Play game music</ThemedText>
+            </View>
+          </View>
+          <Switch
+            value={isMusicEnabled}
+            onValueChange={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              toggleMusic();
+            }}
+            trackColor={{ false: theme.lockGray, true: theme.sage }}
+          />
+        </View>
 
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
@@ -86,9 +119,14 @@ export default function SettingsScreen() {
             thumbColor={Colors.light.warmWhite}
           />
         </View>
+        </View>
       </View>
 
-      <View style={[styles.section, { backgroundColor: theme.backgroundDefault }]}>
+      <View style={styles.sectionWrapper}>
+        <View style={styles.sectionTexture}>
+          <StoneTextureSvg width={360} height={220} variant="blue" borderRadius={12} />
+        </View>
+        <View style={styles.section}>
         <ThemedText style={styles.sectionTitle}>About</ThemedText>
 
         <View style={styles.infoRow}>
@@ -119,6 +157,7 @@ export default function SettingsScreen() {
         <ThemedText style={styles.creditsSubtext}>
           Built with love for cozy gamers
         </ThemedText>
+        </View>
       </View>
     </ScrollView>
   );
@@ -127,24 +166,46 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  sectionWrapper: {
+    position: "relative",
+    borderRadius: 12,
+    borderWidth: 3,
+    borderColor: "#5C5C5C",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
+    overflow: "hidden",
+    marginBottom: Spacing.lg,
+  },
+  sectionTexture: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
   },
   section: {
-    borderRadius: BorderRadius.lg,
+    position: "relative",
+    zIndex: 1,
+    borderRadius: 12,
     padding: Spacing.lg,
-    marginBottom: Spacing.lg,
-    ...Shadows.card,
   },
   sectionTitle: {
     fontFamily: "FredokaOne",
-    fontSize: 18,
-    color: Colors.light.darkWood,
+    fontSize: 20,
+    color: "#2D3748",
     marginBottom: Spacing.lg,
   },
   settingRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: Spacing.sm,
+    paddingVertical: Spacing.sm + 2,
   },
   settingInfo: {
     flexDirection: "row",
@@ -154,29 +215,28 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontFamily: "Nunito",
     fontSize: 16,
-    color: Colors.light.darkWood,
+    color: "#2D3748",
   },
   divider: {
     height: 1,
-    backgroundColor: Colors.light.border,
+    backgroundColor: "#E2E8F0",
     marginVertical: Spacing.sm,
   },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: Spacing.sm,
+    paddingVertical: Spacing.sm + 2,
   },
   infoLabel: {
     fontFamily: "Nunito",
     fontSize: 16,
-    color: Colors.light.darkWood,
+    color: "#2D3748",
   },
   infoValue: {
     fontFamily: "Nunito-SemiBold",
     fontSize: 16,
-    color: Colors.light.darkWood,
-    opacity: 0.7,
+    color: "#718096",
   },
   dangerButton: {
     flexDirection: "row",
@@ -184,13 +244,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: Spacing.sm,
     padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    borderRadius: BorderRadius.lg,
     marginBottom: Spacing.xl,
+    backgroundColor: "#FC8181",
+    shadowColor: "#FC8181",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 4,
   },
   dangerButtonText: {
     fontFamily: "Nunito-Bold",
     fontSize: 16,
-    color: Colors.light.warmWhite,
+    color: "#FFFFFF",
   },
   credits: {
     alignItems: "center",
@@ -198,14 +264,13 @@ const styles = StyleSheet.create({
   },
   creditsText: {
     fontFamily: "FredokaOne",
-    fontSize: 20,
-    color: Colors.light.darkWood,
+    fontSize: 22,
+    color: "#2D3748",
   },
   creditsSubtext: {
     fontFamily: "Nunito",
     fontSize: 14,
-    color: Colors.light.darkWood,
-    opacity: 0.6,
+    color: "#718096",
     marginTop: Spacing.xs,
   },
 });
