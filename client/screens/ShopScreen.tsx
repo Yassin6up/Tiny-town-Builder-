@@ -21,9 +21,10 @@ import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { CoinIcon } from "@/components/CoinIcon";
 import { BuildingIcon } from "@/components/BuildingIcon";
-import { ShopCard } from "@/components/ShopCard";
+import { KidsShopCard } from "@/components/ui/KidsShopCard";
 import { Audio } from "expo-av";
-import { WoodTextureSvg } from "@/components/textures";
+import { LinearGradient } from "expo-linear-gradient";
+import { KidsColors, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const DISTRICT_FILTERS: { id: DistrictId | "all"; label: string }[] = [
@@ -89,7 +90,7 @@ export default function ShopScreen() {
     const canAfford = state.coins >= cost;
 
     return (
-      <ShopCard
+      <KidsShopCard
         building={item}
         isLocked={isLocked}
         canAfford={canAfford}
@@ -125,38 +126,35 @@ export default function ShopScreen() {
             const district = state.districts.find(d => d.id === item.id);
             const isLocked = item.id !== "all" && !district?.unlocked;
 
+            const filterColors = isSelected 
+              ? (['#66BB6A', '#43A047'] as const)
+              : (['#E3F2FD', '#BBDEFB'] as const);
+            const textColor = isSelected ? '#FFFFFF' : '#546E7A';
+
             return (
-              <View style={styles.filterButtonWrapper}>
-                <View style={styles.filterButtonTexture}>
-                  <WoodTextureSvg 
-                    width={100} 
-                    height={40} 
-                    variant={isSelected ? "rich" : "light"} 
-                    borderRadius={20} 
-                  />
-                </View>
-                <Pressable
-                  onPress={() => setSelectedFilter(item.id)}
-                  style={[styles.filterButton, { opacity: isLocked ? 0.6 : 1 }]}
+              <Pressable
+                key={item.id}
+                onPress={() => setSelectedFilter(item.id)}
+                style={[styles.filterButtonWrapper, { opacity: isLocked ? 0.6 : 1 }]}
+              >
+                <LinearGradient
+                  colors={filterColors}
+                  style={styles.filterGradient}
                 >
-                {isLocked ? (
-                  <Feather name="lock" size={12} color="#FFFFFF" style={{ marginRight: 4 }} />
-                ) : null}
-                <ThemedText
-                  style={[
-                    styles.filterText,
-                    { 
-                      color: "#FFFFFF",
-                      textShadowColor: "rgba(0, 0, 0, 0.5)",
-                      textShadowOffset: { width: 1, height: 1 },
-                      textShadowRadius: 2,
-                    },
-                  ]}
-                >
-                  {item.label}
-                </ThemedText>
-                </Pressable>
-              </View>
+                  <View style={styles.filterShine} />
+                  {isLocked ? (
+                    <Feather name="lock" size={12} color={textColor} style={{ marginRight: 4 }} />
+                  ) : null}
+                  <ThemedText
+                    style={[
+                      styles.filterText,
+                      { color: textColor },
+                    ]}
+                  >
+                    {item.label}
+                  </ThemedText>
+                </LinearGradient>
+              </Pressable>
             );
           }}
         />
@@ -227,33 +225,30 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
   },
   filterButtonWrapper: {
+    borderRadius: KidsRadius.round,
+    overflow: "hidden",
+    ...KidsShadows.soft,
+  },
+  filterGradient: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: Spacing.md + 8,
+    paddingVertical: Spacing.sm + 4,
+    borderRadius: KidsRadius.round,
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.5)",
     position: "relative",
-    borderRadius: 20,
-    borderWidth: 3,
-    borderColor: "#8B6914",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 5,
     overflow: "hidden",
   },
-  filterButtonTexture: {
+  filterShine: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
-    zIndex: 0,
-  },
-  filterButton: {
-    position: "relative",
-    zIndex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: Spacing.md + 8,
-    paddingVertical: Spacing.sm + 6,
-    borderRadius: 20,
+    height: "50%",
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    borderTopLeftRadius: KidsRadius.round,
+    borderTopRightRadius: KidsRadius.round,
   },
   filterText: {
     fontFamily: "Nunito-Bold",

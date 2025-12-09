@@ -49,7 +49,9 @@ import { ParallaxBackground } from "@/components/ParallaxBackground";
 import { IsometricBuildingGrid } from "@/components/IsometricBuildingGrid";
 import { ParticleEffect } from "@/components/ParticleEffect";
 import { useMusic } from "@/lib/MusicContext";
-import { CartoonHeader } from "@/components/CartoonHeader";
+import { KidsHeader } from "@/components/ui/KidsHeader";
+import { KidsDiamondShopModal } from "@/components/ui/KidsDiamondShopModal";
+import { KidsOfflineModal } from "@/components/ui/KidsOfflineModal";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -373,9 +375,9 @@ export default function TownScreen() {
         />
       </Animated.ScrollView>
 
-      {/* Cartoon Header with Currency */}
+      {/* Kids Cartoon Header with Currency */}
       <View style={[styles.absoluteHeader, { paddingTop: insets.top + Spacing.sm }]}>
-        <CartoonHeader
+        <KidsHeader
           coins={state.coins}
           diamonds={state.diamonds}
           districtLogo={districtLogos[state.currentDistrict]}
@@ -433,23 +435,21 @@ export default function TownScreen() {
         </Animated.View>
       )}
 
-      <OfflineEarningsModal
+      <KidsOfflineModal
         visible={offlineEarnings > 0}
         earnings={offlineEarnings}
         onDismiss={dismissOfflineEarnings}
       />
       
-      <DiamondShopModal
+      <KidsDiamondShopModal
         visible={showDiamondShop}
         onClose={() => setShowDiamondShop(false)}
         onPurchase={(diamonds, cost) => {
-          // In a real app, this would trigger in-app purchase
           purchaseDiamonds(diamonds);
           setShowDiamondShop(false);
           Alert.alert("Success!", `You received ${diamonds} diamonds!`);
         }}
         onWatchAd={() => {
-          // In a real app, this would show a rewarded video ad
           watchAdForDiamond();
           setShowDiamondShop(false);
           Alert.alert("Thanks for watching!", "You received 1 diamond!");
