@@ -78,8 +78,22 @@ Preferred communication style: Simple, everyday language.
 
 **Theme System**:
 - Centralized color/spacing/typography constants in `client/constants/theme.ts`
+- "Juicy UI" kid-friendly theme in `client/constants/kidsCartoonTheme.ts`
 - Hook-based theme access (`useTheme`, `useColorScheme`)
 - Automatic light/dark mode support via system preferences
+
+**UI Design System (Juicy UI)**:
+- Color Palette:
+  - Warm Cream (#FFFEF7): Primary background color
+  - Warm Gold (#FFB84D): Coins, primary accents
+  - Forest Green (#4CAF50): Success states, buy buttons
+  - Playful Pink (#FF6B9D): Accent highlights
+  - Cyan Blue (#00D4FF): Diamonds, premium elements
+  - Dark Grey (#4A4A4A): Primary text
+- 3D Pressable Elements: All buttons have bottom borders for depth, with press-down animations
+- Glassmorphism HUD: Frosted glass header with blur effects
+- Typography: Fredoka One for headings, Nunito for body text
+- Animations: Spring-based bounce/pop animations on interactions
 
 **Navigation Structure**:
 - Root stack contains main tab navigator
