@@ -5,12 +5,13 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   withSequence,
+  withTiming,
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
-import Svg, { Defs, RadialGradient, Stop, Circle } from 'react-native-svg';
+import Svg, { Defs, RadialGradient, Stop, Circle, Text as SvgText } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
-import { KidsColors, KidsShadows, KidsRadius, KidsSpacing, KidsAnimations } from '@/constants/kidsCartoonTheme';
+import { TinyTownColors, KidsShadows, KidsRadius, KidsSpacing, KidsAnimations } from '@/constants/kidsCartoonTheme';
 import { Building, formatNumber, getBuildingCost } from '@/lib/gameData';
 import { BuildingIcon } from '@/components/BuildingIcon';
 
@@ -30,13 +31,15 @@ function CoinSvg({ size }: { size: number }) {
     <Svg width={size} height={size} viewBox="0 0 40 40">
       <Defs>
         <RadialGradient id="coinGrad" cx="35%" cy="35%" r="60%">
-          <Stop offset="0%" stopColor="#FFEB3B" />
-          <Stop offset="50%" stopColor="#FFD700" />
-          <Stop offset="100%" stopColor="#FFA000" />
+          <Stop offset="0%" stopColor="#FFE082" />
+          <Stop offset="50%" stopColor="#FFB84D" />
+          <Stop offset="100%" stopColor="#F5A623" />
         </RadialGradient>
       </Defs>
-      <Circle cx="20" cy="20" r="18" fill="url(#coinGrad)" />
-      <Circle cx="20" cy="20" r="14" fill="#FFC107" stroke="#FFB300" strokeWidth="1" />
+      <Circle cx="20" cy="21" r="17" fill="#F5A623" />
+      <Circle cx="20" cy="19" r="17" fill="url(#coinGrad)" />
+      <Circle cx="20" cy="19" r="13" fill="#FFB84D" stroke="#F5A623" strokeWidth="1" />
+      <SvgText x="20" y="25" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#F5A623">$</SvgText>
     </Svg>
   );
 }
@@ -49,26 +52,32 @@ export function KidsShopCard({
   onPress,
 }: KidsShopCardProps) {
   const scale = useSharedValue(1);
+  const translateY = useSharedValue(0);
   const cost = getBuildingCost(building);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
+    transform: [
+      { scale: scale.value },
+      { translateY: translateY.value },
+    ],
   }));
 
   const handlePressIn = () => {
     scale.value = withSpring(0.97, KidsAnimations.pop);
+    translateY.value = withTiming(2, { duration: 80 });
   };
 
   const handlePressOut = () => {
     scale.value = withSpring(1, KidsAnimations.spring);
+    translateY.value = withTiming(0, { duration: 100 });
   };
 
   const handleBuy = () => {
     if (!isLocked && canAfford) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       scale.value = withSequence(
-        withSpring(0.9, KidsAnimations.pop),
-        withSpring(1.05, KidsAnimations.bounce),
+        withSpring(0.92, KidsAnimations.pop),
+        withSpring(1.04, KidsAnimations.bounce),
         withSpring(1, KidsAnimations.spring)
       );
       onBuy();
@@ -77,16 +86,10 @@ export function KidsShopCard({
     }
   };
 
-  const cardGradient = isLocked
-    ? (['#ECEFF1', '#CFD8DC'] as const)
-    : (['#FFFFFF', '#F5F5F5'] as const);
-
-  const borderColor = isLocked ? '#90A4AE' : '#E0E0E0';
-
   const tierColors = {
-    common: { bg: '#E8F5E9', text: '#43A047' },
-    rare: { bg: '#E3F2FD', text: '#1976D2' },
-    legendary: { bg: '#FFF8E1', text: '#F57C00' },
+    common: { bg: TinyTownColors.success.light + '40', border: TinyTownColors.success.main, text: TinyTownColors.success.dark },
+    rare: { bg: TinyTownColors.diamond.light + '40', border: TinyTownColors.diamond.main, text: TinyTownColors.diamond.dark },
+    legendary: { bg: TinyTownColors.primary.light + '40', border: TinyTownColors.primary.main, text: TinyTownColors.primary.dark },
   };
 
   const tierConfig = tierColors[building.tier] || tierColors.common;
@@ -98,23 +101,22 @@ export function KidsShopCard({
       onPressOut={handlePressOut}
       style={[styles.cardPressable, animatedStyle]}
     >
-      <View style={[styles.card, KidsShadows.medium]}>
-        <LinearGradient
-          colors={cardGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={[styles.cardGradient, { borderColor }]}
-        >
+      <View style={[styles.cardOuter, isLocked && styles.cardOuterLocked]}>
+        <View style={[styles.card, KidsShadows.card]}>
           {isLocked && <View style={styles.lockedOverlay} />}
           <View style={styles.cardShine} />
           
           <View style={styles.cardContent}>
             <View style={styles.iconSection}>
-              <View style={[styles.iconContainer, isLocked && styles.iconContainerLocked]}>
-                <BuildingIcon type={building.iconType} tier={building.tier} size={70} />
+              <View style={[
+                styles.iconContainer, 
+                { backgroundColor: tierConfig.bg, borderColor: tierConfig.border },
+                isLocked && styles.iconContainerLocked
+              ]}>
+                <BuildingIcon type={building.iconType} tier={building.tier} size={65} />
                 {isLocked && (
                   <View style={styles.lockIcon}>
-                    <Feather name="lock" size={24} color="#FFFFFF" />
+                    <Feather name="lock" size={22} color="#FFFFFF" />
                   </View>
                 )}
               </View>
@@ -131,8 +133,8 @@ export function KidsShopCard({
                   {building.name}
                 </Text>
                 {building.tier !== 'common' && (
-                  <View style={[styles.tierBadge, { backgroundColor: tierConfig.bg }]}>
-                    <Text style={[styles.tierText, { color: tierConfig.text }]}>
+                  <View style={[styles.tierBadge, { backgroundColor: tierConfig.bg, borderColor: tierConfig.border }]}>
+                    <Text style={styles.tierText}>
                       {building.tier === 'legendary' ? '⭐' : '💎'}
                     </Text>
                   </View>
@@ -142,7 +144,7 @@ export function KidsShopCard({
                 {building.description}
               </Text>
               <View style={styles.incomeRow}>
-                <Feather name="trending-up" size={14} color={isLocked ? '#90A4AE' : '#66BB6A'} />
+                <Feather name="trending-up" size={14} color={isLocked ? '#9E9E9E' : TinyTownColors.success.main} />
                 <Text style={[styles.incomeText, isLocked && styles.textLocked]}>
                   +{formatNumber(building.baseIncome)}/sec
                 </Text>
@@ -151,8 +153,8 @@ export function KidsShopCard({
 
             <View style={styles.buySection}>
               <View style={styles.costRow}>
-                <CoinSvg size={22} />
-                <Text style={[styles.costText, { color: canAfford ? '#FFA726' : '#EF5350' }]}>
+                <CoinSvg size={24} />
+                <Text style={[styles.costText, { color: canAfford ? TinyTownColors.primary.main : '#EF5350' }]}>
                   {formatNumber(cost)}
                 </Text>
               </View>
@@ -160,17 +162,17 @@ export function KidsShopCard({
                 onPress={handleBuy}
                 disabled={isLocked || !canAfford}
                 style={({ pressed }) => [
-                  styles.buyButton,
+                  styles.buyButtonOuter,
                   pressed && styles.buyButtonPressed,
                 ]}
               >
                 <LinearGradient
                   colors={
                     isLocked
-                      ? (['#90A4AE', '#78909C'] as const)
+                      ? (['#BDBDBD', '#9E9E9E'] as const)
                       : canAfford
-                      ? (['#66BB6A', '#43A047'] as const)
-                      : (['#E57373', '#EF5350'] as const)
+                      ? ([TinyTownColors.success.light, TinyTownColors.success.main] as const)
+                      : (['#EF9A9A', '#EF5350'] as const)
                   }
                   style={styles.buyButtonGradient}
                 >
@@ -184,10 +186,15 @@ export function KidsShopCard({
                     {isLocked ? 'Locked' : 'Buy'}
                   </Text>
                 </LinearGradient>
+                <View style={[
+                  styles.buyButtonBottom,
+                  { backgroundColor: isLocked ? '#757575' : canAfford ? TinyTownColors.success.dark : '#C62828' }
+                ]} />
               </Pressable>
             </View>
           </View>
-        </LinearGradient>
+        </View>
+        <View style={[styles.cardBottom, isLocked && styles.cardBottomLocked]} />
       </View>
     </AnimatedPressable>
   );
@@ -197,29 +204,35 @@ const styles = StyleSheet.create({
   cardPressable: {
     marginBottom: KidsSpacing.md,
   },
+  cardOuter: {
+    borderRadius: KidsRadius.lg,
+    backgroundColor: '#E0E0E0',
+  },
+  cardOuterLocked: {
+    backgroundColor: '#BDBDBD',
+  },
   card: {
     borderRadius: KidsRadius.lg,
-    overflow: 'hidden',
-  },
-  cardGradient: {
-    borderRadius: KidsRadius.lg,
-    borderWidth: 2,
+    backgroundColor: TinyTownColors.panel.white,
     padding: KidsSpacing.md,
     position: 'relative',
     overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#F5F5F5',
   },
   lockedOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(158, 158, 158, 0.15)',
+    backgroundColor: 'rgba(189, 189, 189, 0.1)',
     zIndex: 0,
+    borderRadius: KidsRadius.lg,
   },
   cardShine: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    height: '25%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    height: '30%',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
     borderTopLeftRadius: KidsRadius.lg,
     borderTopRightRadius: KidsRadius.lg,
     zIndex: 0,
@@ -233,14 +246,12 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   iconContainer: {
-    width: 80,
-    height: 80,
+    width: 78,
+    height: 78,
     borderRadius: KidsRadius.md,
-    backgroundColor: '#E8F5E9',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#A5D6A7',
     ...KidsShadows.soft,
   },
   iconContainerLocked: {
@@ -249,7 +260,7 @@ const styles = StyleSheet.create({
   },
   lockIcon: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
     borderRadius: KidsRadius.md,
     justifyContent: 'center',
     alignItems: 'center',
@@ -258,12 +269,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -6,
     right: -6,
-    backgroundColor: '#66BB6A',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    backgroundColor: TinyTownColors.success.main,
+    paddingHorizontal: 9,
+    paddingVertical: 3,
     borderRadius: KidsRadius.round,
     borderWidth: 2,
-    borderColor: '#FFFFFF',
+    borderColor: TinyTownColors.panel.white,
     ...KidsShadows.soft,
   },
   ownedText: {
@@ -273,7 +284,7 @@ const styles = StyleSheet.create({
   },
   infoSection: {
     flex: 1,
-    marginLeft: KidsSpacing.sm,
+    marginLeft: KidsSpacing.md,
   },
   nameRow: {
     flexDirection: 'row',
@@ -283,27 +294,28 @@ const styles = StyleSheet.create({
   buildingName: {
     fontFamily: 'FredokaOne',
     fontSize: 16,
-    color: '#37474F',
+    color: TinyTownColors.text.primary,
     flex: 1,
   },
   textLocked: {
-    color: '#90A4AE',
+    color: '#9E9E9E',
   },
   tierBadge: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1.5,
   },
   tierText: {
-    fontSize: 10,
+    fontSize: 11,
   },
   description: {
     fontFamily: 'Nunito-Regular',
     fontSize: 12,
-    color: '#607D8B',
-    marginTop: 2,
+    color: TinyTownColors.text.secondary,
+    marginTop: 3,
     lineHeight: 16,
   },
   incomeRow: {
@@ -315,7 +327,7 @@ const styles = StyleSheet.create({
   incomeText: {
     fontFamily: 'Nunito-Bold',
     fontSize: 13,
-    color: '#66BB6A',
+    color: TinyTownColors.success.main,
   },
   buySection: {
     alignItems: 'center',
@@ -325,26 +337,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   costText: {
     fontFamily: 'FredokaOne',
-    fontSize: 14,
+    fontSize: 15,
   },
-  buyButton: {
+  buyButtonOuter: {
     borderRadius: KidsRadius.round,
     overflow: 'hidden',
-    ...KidsShadows.soft,
   },
   buyButtonPressed: {
-    transform: [{ scale: 0.95 }],
+    transform: [{ scale: 0.95 }, { translateY: 2 }],
   },
   buyButtonGradient: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    gap: 5,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: KidsRadius.round,
     position: 'relative',
     overflow: 'hidden',
@@ -354,14 +365,39 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    height: '55%',
+    backgroundColor: 'rgba(255, 255, 255, 0.35)',
     borderTopLeftRadius: KidsRadius.round,
     borderTopRightRadius: KidsRadius.round,
   },
   buyButtonText: {
-    fontFamily: 'Nunito-Bold',
+    fontFamily: 'FredokaOne',
     fontSize: 13,
     color: '#FFFFFF',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
+  buyButtonBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 4,
+    borderBottomLeftRadius: KidsRadius.round,
+    borderBottomRightRadius: KidsRadius.round,
+  },
+  cardBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 5,
+    backgroundColor: '#E0E0E0',
+    borderBottomLeftRadius: KidsRadius.lg,
+    borderBottomRightRadius: KidsRadius.lg,
+  },
+  cardBottomLocked: {
+    backgroundColor: '#BDBDBD',
   },
 });

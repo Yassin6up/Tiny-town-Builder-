@@ -24,7 +24,7 @@ import { BuildingIcon } from "@/components/BuildingIcon";
 import { KidsShopCard } from "@/components/ui/KidsShopCard";
 import { Audio } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
-import { KidsColors, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
+import { TinyTownColors, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const DISTRICT_FILTERS: { id: DistrictId | "all"; label: string }[] = [
@@ -101,7 +101,7 @@ export default function ShopScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: "#E8F4FD" }]}>
+    <View style={[styles.container, { backgroundColor: TinyTownColors.background.warmCream }]}>
       <View style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}>
         <ThemedText style={styles.title}>🏪 Building Shop</ThemedText>
         <View style={styles.coinDisplay}>
@@ -127,9 +127,9 @@ export default function ShopScreen() {
             const isLocked = item.id !== "all" && !district?.unlocked;
 
             const filterColors = isSelected 
-              ? (['#66BB6A', '#43A047'] as const)
-              : (['#E3F2FD', '#BBDEFB'] as const);
-            const textColor = isSelected ? '#FFFFFF' : '#546E7A';
+              ? ([TinyTownColors.success.light, TinyTownColors.success.main] as const)
+              : ([TinyTownColors.panel.white, '#F5F5F5'] as const);
+            const textColor = isSelected ? '#FFFFFF' : TinyTownColors.text.primary;
 
             return (
               <Pressable
@@ -188,11 +188,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "FredokaOne",
-    fontSize: 34,
-    color: "#2D3748",
+    fontSize: 32,
+    color: TinyTownColors.text.primary,
     textShadowColor: "#FFFFFF",
-    textShadowOffset: { width: 3, height: 3 },
-    textShadowRadius: 6,
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
   },
   coinDisplay: {
     shadowColor: "#FFD700",
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   coinText: {
     fontFamily: "FredokaOne",
     fontSize: 18,
-    color: "#FFB74D",
+    color: TinyTownColors.primary.main,
   },
   filterContainer: {
     marginBottom: Spacing.md,

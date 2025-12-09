@@ -36,6 +36,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useGame } from "@/lib/GameContext";
 import { formatNumber } from "@/lib/gameData";
 import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
+import { TinyTownColors } from "@/constants/kidsCartoonTheme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { CoinIcon } from "@/components/CoinIcon";
 import { DiamondIcon } from "@/components/DiamondIcon";
@@ -314,7 +315,7 @@ export default function TownScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: "#E8F4FD" }]}>
+    <View style={[styles.container, { backgroundColor: TinyTownColors.background.warmCream }]}>
       {/* Dynamic Background Image */}
       <Image
         source={backgroundImages[state.currentDistrict]}
