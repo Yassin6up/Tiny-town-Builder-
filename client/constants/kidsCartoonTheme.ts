@@ -1,174 +1,191 @@
-// Kids Cartoon Game UI Theme
-// Colorful, soft edges, pastel gradients, shiny effects, playful animations
+// Tiny Town Builder - Juicy UI Theme
+// Vibrant, kid-friendly, bubbly design with 3D pressable effects
 
-export const KidsColors = {
-  // Vibrant Candy Primaries
-  pink: {
-    light: '#FFE4EC',
-    main: '#FF7EB3',
-    dark: '#FF4D94',
-    gradient: ['#FFAFCC', '#FF7EB3'] as const,
-    glow: 'rgba(255, 126, 179, 0.5)',
+export const TinyTownColors = {
+  // Core Brand Colors
+  background: {
+    warmCream: '#FFFEF7',
+    softStone: '#F5F5F0',
+    sky: '#E8F4FD',
+    gradient: ['#FFFEF7', '#F5F5F0'] as const,
   },
-  purple: {
-    light: '#F3E5F5',
-    main: '#CE93D8',
-    dark: '#AB47BC',
-    gradient: ['#E1BEE7', '#BA68C8'] as const,
-    glow: 'rgba(186, 104, 200, 0.5)',
+
+  // Primary - Warm Gold (Coins & Main Actions)
+  primary: {
+    main: '#FFB84D',
+    light: '#FFCD80',
+    dark: '#F5A623',
+    gradient: ['#FFCD80', '#FFB84D', '#F5A623'] as const,
+    glow: 'rgba(255, 184, 77, 0.5)',
   },
-  blue: {
-    light: '#E3F2FD',
-    main: '#64B5F6',
-    dark: '#42A5F5',
-    gradient: ['#90CAF9', '#42A5F5'] as const,
-    glow: 'rgba(66, 165, 245, 0.5)',
-  },
-  cyan: {
-    light: '#E0F7FA',
-    main: '#4DD0E1',
-    dark: '#26C6DA',
-    gradient: ['#80DEEA', '#26C6DA'] as const,
-    glow: 'rgba(38, 198, 218, 0.5)',
-  },
-  green: {
-    light: '#E8F5E9',
-    main: '#81C784',
-    dark: '#66BB6A',
-    gradient: ['#A5D6A7', '#4CAF50'] as const,
+
+  // Secondary - Forest Green (Success & Buy Buttons)
+  success: {
+    main: '#4CAF50',
+    light: '#81C784',
+    dark: '#388E3C',
+    gradient: ['#81C784', '#4CAF50', '#388E3C'] as const,
     glow: 'rgba(76, 175, 80, 0.5)',
   },
-  yellow: {
-    light: '#FFFDE7',
-    main: '#FFEE58',
-    dark: '#FFD54F',
-    gradient: ['#FFF59D', '#FFEB3B'] as const,
-    glow: 'rgba(255, 235, 59, 0.5)',
+
+  // Accent - Playful Pink
+  pink: {
+    main: '#FF6B9D',
+    light: '#FF9DC4',
+    dark: '#E91E63',
+    gradient: ['#FF9DC4', '#FF6B9D'] as const,
+    glow: 'rgba(255, 107, 157, 0.5)',
   },
-  orange: {
-    light: '#FFF3E0',
-    main: '#FFB74D',
-    dark: '#FF9800',
-    gradient: ['#FFCC80', '#FF9800'] as const,
-    glow: 'rgba(255, 152, 0, 0.5)',
-  },
-  red: {
-    light: '#FFEBEE',
-    main: '#EF5350',
-    dark: '#E53935',
-    gradient: ['#EF9A9A', '#EF5350'] as const,
-    glow: 'rgba(239, 83, 80, 0.5)',
-  },
-  
-  // Shiny Currency Colors
-  coin: {
-    main: '#FFD700',
-    shine: '#FFEB3B',
-    shadow: '#F9A825',
-    gradient: ['#FFE57F', '#FFD700', '#FFC107'] as const,
-    glow: 'rgba(255, 215, 0, 0.6)',
-  },
+
+  // Premium - Cyan Blue (Diamonds)
   diamond: {
-    main: '#00BCD4',
-    shine: '#4DD0E1',
-    shadow: '#0097A7',
-    gradient: ['#80DEEA', '#00BCD4', '#00ACC1'] as const,
-    glow: 'rgba(0, 188, 212, 0.6)',
+    main: '#00D4FF',
+    light: '#80EAFF',
+    dark: '#00ACC1',
+    gradient: ['#80EAFF', '#00D4FF', '#00ACC1'] as const,
+    glow: 'rgba(0, 212, 255, 0.5)',
   },
-  gem: {
-    pink: ['#FF8A80', '#FF5252'] as const,
-    purple: ['#EA80FC', '#D500F9'] as const,
-    blue: ['#82B1FF', '#448AFF'] as const,
-    green: ['#B9F6CA', '#69F0AE'] as const,
+
+  // Coin Colors
+  coin: {
+    main: '#FFB84D',
+    shine: '#FFE082',
+    shadow: '#F5A623',
+    gradient: ['#FFE082', '#FFB84D', '#F5A623'] as const,
+    glow: 'rgba(255, 184, 77, 0.6)',
   },
-  
-  // Fun Background Colors
-  background: {
-    sky: '#E8F4FD',
-    cream: '#FFF9E6',
-    mint: '#E8F8F5',
-    lavender: '#F5F0FF',
-    peach: '#FFF0E8',
-    gradient: ['#E8F4FD', '#C5E3F6'] as const,
-  },
-  
-  // Panel Colors
-  panel: {
-    white: '#FFFFFF',
-    soft: '#FAFAFA',
-    cream: '#FFF8E1',
-    pink: '#FFF0F5',
-    blue: '#F0F8FF',
-  },
-  
+
   // Text Colors
   text: {
-    dark: '#37474F',
-    medium: '#607D8B',
-    light: '#90A4AE',
+    primary: '#4A4A4A',
+    secondary: '#6B6B6B',
+    muted: '#999999',
     white: '#FFFFFF',
-    gold: '#FFA000',
+    gold: '#F5A623',
+    green: '#388E3C',
   },
-  
-  // Fun Button Gradients
+
+  // Panel & Card Colors
+  panel: {
+    white: '#FFFFFF',
+    cream: '#FFFEF7',
+    frosted: 'rgba(255, 255, 255, 0.85)',
+    glass: 'rgba(255, 255, 255, 0.6)',
+  },
+
+  // Button Variants
   button: {
-    primary: ['#66BB6A', '#43A047'] as const,
-    secondary: ['#42A5F5', '#1E88E5'] as const,
-    accent: ['#FFCA28', '#FFB300'] as const,
-    danger: ['#EF5350', '#E53935'] as const,
-    premium: ['#AB47BC', '#8E24AA'] as const,
-    fun: ['#FF7EB3', '#FF4D94'] as const,
-    magic: ['#7C4DFF', '#651FFF'] as const,
+    primary: ['#81C784', '#4CAF50', '#388E3C'] as const,
+    gold: ['#FFE082', '#FFB84D', '#F5A623'] as const,
+    blue: ['#64B5F6', '#42A5F5', '#1E88E5'] as const,
+    pink: ['#FF9DC4', '#FF6B9D', '#E91E63'] as const,
+    diamond: ['#80EAFF', '#00D4FF', '#00ACC1'] as const,
+    disabled: ['#E0E0E0', '#BDBDBD', '#9E9E9E'] as const,
   },
-  
-  // Sparkle & Glow Effects
-  glow: {
-    gold: 'rgba(255, 215, 0, 0.6)',
-    diamond: 'rgba(0, 188, 212, 0.5)',
-    success: 'rgba(129, 199, 132, 0.5)',
-    magic: 'rgba(186, 104, 200, 0.5)',
-    rainbow: 'rgba(255, 126, 179, 0.4)',
-  },
-  
-  // District Theme Colors
+
+  // District Colors
   district: {
-    forest: { main: '#66BB6A', light: '#C8E6C9', dark: '#388E3C' },
-    coastal: { main: '#42A5F5', light: '#BBDEFB', dark: '#1976D2' },
-    mountain: { main: '#90A4AE', light: '#CFD8DC', dark: '#546E7A' },
+    forest: { main: '#4CAF50', light: '#C8E6C9', dark: '#388E3C' },
+    coastal: { main: '#29B6F6', light: '#B3E5FC', dark: '#0288D1' },
+    mountain: { main: '#78909C', light: '#CFD8DC', dark: '#546E7A' },
     desert: { main: '#FFB74D', light: '#FFE0B2', dark: '#F57C00' },
     skyline: { main: '#AB47BC', light: '#E1BEE7', dark: '#7B1FA2' },
   },
 };
 
+// Legacy alias for compatibility
+export const KidsColors = {
+  ...TinyTownColors,
+  bubblegumPink: TinyTownColors.pink.main,
+  green: TinyTownColors.success,
+  blue: {
+    main: '#42A5F5',
+    light: '#E3F2FD',
+    dark: '#1E88E5',
+    gradient: ['#64B5F6', '#42A5F5'] as const,
+    glow: 'rgba(66, 165, 245, 0.5)',
+  },
+  yellow: {
+    main: '#FFB84D',
+    light: '#FFF3E0',
+    dark: '#F5A623',
+    gradient: ['#FFE082', '#FFB84D'] as const,
+    glow: 'rgba(255, 184, 77, 0.5)',
+  },
+  orange: TinyTownColors.primary,
+  cyan: TinyTownColors.diamond,
+  purple: {
+    main: '#AB47BC',
+    light: '#E1BEE7',
+    dark: '#7B1FA2',
+    gradient: ['#CE93D8', '#AB47BC'] as const,
+    glow: 'rgba(171, 71, 188, 0.5)',
+  },
+  red: {
+    main: '#EF5350',
+    light: '#FFEBEE',
+    dark: '#E53935',
+    gradient: ['#EF9A9A', '#EF5350'] as const,
+    glow: 'rgba(239, 83, 80, 0.5)',
+  },
+  background: TinyTownColors.background,
+  panel: TinyTownColors.panel,
+  text: TinyTownColors.text,
+  button: TinyTownColors.button,
+  glow: {
+    gold: TinyTownColors.coin.glow,
+    diamond: TinyTownColors.diamond.glow,
+    success: TinyTownColors.success.glow,
+    magic: 'rgba(171, 71, 188, 0.5)',
+    rainbow: TinyTownColors.pink.glow,
+  },
+  district: TinyTownColors.district,
+};
+
+// 3D Shadow Presets for "Pressable" Effect
 export const KidsShadows = {
   soft: {
-    shadowColor: '#78909C',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
   },
   medium: {
-    shadowColor: '#607D8B',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 4,
   },
   float: {
-    shadowColor: '#455A64',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
     elevation: 8,
   },
   pop: {
-    shadowColor: '#263238',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
     elevation: 12,
   },
+  card: {
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 20,
+    elevation: 4,
+  },
+  button3D: (bottomColor: string) => ({
+    shadowColor: bottomColor,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 0,
+    elevation: 4,
+  }),
   glow: (color: string, intensity: number = 0.5) => ({
     shadowColor: color,
     shadowOffset: { width: 0, height: 0 },
@@ -179,19 +196,20 @@ export const KidsShadows = {
   coloredFloat: (color: string) => ({
     shadowColor: color,
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.35,
     shadowRadius: 12,
     elevation: 8,
   }),
 };
 
+// Chunky Border Radius for Bubbly Feel
 export const KidsRadius = {
   xs: 8,
   sm: 12,
   md: 16,
-  lg: 24,
-  xl: 32,
-  xxl: 40,
+  lg: 20,
+  xl: 24,
+  xxl: 32,
   round: 999,
 };
 
@@ -206,6 +224,7 @@ export const KidsSpacing = {
   xxxl: 48,
 };
 
+// Font configuration for rounded, friendly typography
 export const KidsFonts = {
   heading: 'FredokaOne',
   body: 'Nunito-SemiBold',
@@ -224,38 +243,38 @@ export const KidsSizes = {
     xxxl: 72,
   },
   button: {
-    sm: { height: 40, padding: 14, fontSize: 14 },
-    md: { height: 50, padding: 18, fontSize: 16 },
-    lg: { height: 60, padding: 22, fontSize: 18 },
-    xl: { height: 70, padding: 26, fontSize: 20 },
+    sm: { height: 44, padding: 16, fontSize: 14, borderBottom: 4 },
+    md: { height: 52, padding: 20, fontSize: 16, borderBottom: 5 },
+    lg: { height: 62, padding: 24, fontSize: 18, borderBottom: 6 },
+    xl: { height: 72, padding: 28, fontSize: 20, borderBottom: 7 },
   },
   currency: {
-    sm: { icon: 22, text: 15 },
-    md: { icon: 30, text: 18 },
-    lg: { icon: 40, text: 22 },
-    xl: { icon: 50, text: 26 },
+    sm: { icon: 24, text: 14 },
+    md: { icon: 30, text: 16 },
+    lg: { icon: 38, text: 20 },
+    xl: { icon: 48, text: 24 },
   },
   card: {
-    sm: { padding: 12, radius: 16 },
-    md: { padding: 16, radius: 20 },
-    lg: { padding: 20, radius: 24 },
+    sm: { padding: 14, radius: 16 },
+    md: { padding: 18, radius: 20 },
+    lg: { padding: 22, radius: 24 },
   },
 };
 
-// Bouncy Animation Presets
+// Bouncy, Juicy Animation Presets
 export const KidsAnimations = {
   bounce: {
     damping: 6,
-    stiffness: 250,
+    stiffness: 280,
     mass: 0.8,
   },
   spring: {
-    damping: 10,
+    damping: 12,
     stiffness: 200,
   },
   pop: {
     damping: 5,
-    stiffness: 350,
+    stiffness: 380,
   },
   gentle: {
     damping: 15,
@@ -263,21 +282,31 @@ export const KidsAnimations = {
   },
   wiggle: {
     damping: 3,
-    stiffness: 400,
+    stiffness: 450,
   },
   jelly: {
     damping: 4,
-    stiffness: 300,
+    stiffness: 320,
     mass: 1.2,
+  },
+  breathe: {
+    duration: 2000,
   },
 };
 
-// Helper function to create gradient colors
+// Glassmorphism config for HUD
+export const GlassConfig = {
+  blur: 10,
+  backgroundColor: 'rgba(255, 255, 255, 0.75)',
+  borderColor: 'rgba(255, 255, 255, 0.3)',
+  borderWidth: 1,
+};
+
+// Helper functions
 export const createGradient = (color1: string, color2: string): readonly [string, string] => {
   return [color1, color2] as const;
 };
 
-// Helper for responsive sizing
 export const getResponsiveSize = (baseSize: number, scale: number = 1): number => {
   return Math.round(baseSize * scale);
 };

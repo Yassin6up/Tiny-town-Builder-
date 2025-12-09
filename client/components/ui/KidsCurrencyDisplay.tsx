@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -11,10 +12,9 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import Svg, { Defs, RadialGradient, Stop, Circle, Path, Ellipse, Text as SvgText } from 'react-native-svg';
-import { KidsColors, KidsShadows, KidsRadius, KidsSizes, KidsAnimations } from '@/constants/kidsCartoonTheme';
+import { TinyTownColors, KidsShadows, KidsRadius, KidsSizes, KidsAnimations, GlassConfig } from '@/constants/kidsCartoonTheme';
 import { formatNumber } from '@/lib/gameData';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface KidsCurrencyDisplayProps {
@@ -30,19 +30,20 @@ function CoinSvg({ size }: { size: number }) {
     <Svg width={size} height={size} viewBox="0 0 40 40">
       <Defs>
         <RadialGradient id="coinGradient" cx="35%" cy="35%" r="60%">
-          <Stop offset="0%" stopColor="#FFEB3B" />
-          <Stop offset="50%" stopColor="#FFD700" />
-          <Stop offset="100%" stopColor="#FFA000" />
+          <Stop offset="0%" stopColor="#FFE082" />
+          <Stop offset="50%" stopColor="#FFB84D" />
+          <Stop offset="100%" stopColor="#F5A623" />
         </RadialGradient>
         <RadialGradient id="coinShine" cx="30%" cy="25%" r="30%">
-          <Stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
+          <Stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
           <Stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </RadialGradient>
       </Defs>
-      <Circle cx="20" cy="20" r="18" fill="url(#coinGradient)" />
-      <Circle cx="20" cy="20" r="14" fill="#FFC107" stroke="#FFB300" strokeWidth="1" />
-      <Circle cx="20" cy="20" r="18" fill="url(#coinShine)" />
-      <SvgText x="20" y="26" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#D84315">$</SvgText>
+      <Circle cx="20" cy="21" r="17" fill="#F5A623" />
+      <Circle cx="20" cy="19" r="17" fill="url(#coinGradient)" />
+      <Circle cx="20" cy="19" r="13" fill="#FFB84D" stroke="#F5A623" strokeWidth="1.5" />
+      <Circle cx="20" cy="19" r="17" fill="url(#coinShine)" />
+      <SvgText x="20" y="25" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#F5A623">$</SvgText>
     </Svg>
   );
 }
@@ -52,23 +53,28 @@ function DiamondSvg({ size }: { size: number }) {
     <Svg width={size} height={size} viewBox="0 0 40 40">
       <Defs>
         <RadialGradient id="diamondGradient" cx="40%" cy="30%" r="70%">
-          <Stop offset="0%" stopColor="#80DEEA" />
-          <Stop offset="50%" stopColor="#26C6DA" />
-          <Stop offset="100%" stopColor="#00838F" />
+          <Stop offset="0%" stopColor="#80EAFF" />
+          <Stop offset="50%" stopColor="#00D4FF" />
+          <Stop offset="100%" stopColor="#00ACC1" />
         </RadialGradient>
         <RadialGradient id="diamondShine" cx="25%" cy="20%" r="25%">
-          <Stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+          <Stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
           <Stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </RadialGradient>
       </Defs>
       <Path
-        d="M20 4 L34 15 L20 36 L6 15 Z"
+        d="M20 6 L33 16 L20 35 L7 16 Z"
+        fill="#00ACC1"
+        transform="translate(0, 1)"
+      />
+      <Path
+        d="M20 5 L33 15 L20 34 L7 15 Z"
         fill="url(#diamondGradient)"
       />
       <Path
-        d="M20 4 L28 15 L20 28 L12 15 Z"
-        fill="#4DD0E1"
-        opacity="0.6"
+        d="M20 5 L27 15 L20 26 L13 15 Z"
+        fill="#00D4FF"
+        opacity="0.7"
       />
       <Ellipse cx="15" cy="12" rx="5" ry="4" fill="url(#diamondShine)" />
     </Svg>
@@ -83,11 +89,11 @@ export function KidsCurrencyDisplay({
   showPlus = false,
 }: KidsCurrencyDisplayProps) {
   const scale = useSharedValue(1);
-  const glow = useSharedValue(0);
+  const shimmer = useSharedValue(0);
 
   React.useEffect(() => {
-    glow.value = withRepeat(
-      withTiming(1, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+    shimmer.value = withRepeat(
+      withTiming(1, { duration: 3000, easing: Easing.inOut(Easing.ease) }),
       -1,
       true
     );
@@ -98,33 +104,30 @@ export function KidsCurrencyDisplay({
   }));
 
   const handlePressIn = () => {
-    scale.value = withSpring(0.95, KidsAnimations.pop);
+    scale.value = withSpring(0.93, KidsAnimations.pop);
   };
 
   const handlePressOut = () => {
     scale.value = withSequence(
-      withSpring(1.08, KidsAnimations.bounce),
+      withSpring(1.06, KidsAnimations.bounce),
       withSpring(1, KidsAnimations.spring)
     );
   };
 
   const sizeConfig = KidsSizes.currency[size];
   const isCoin = type === 'coin';
+
+  const backgroundColor = isCoin 
+    ? 'rgba(255, 248, 225, 0.95)' 
+    : 'rgba(224, 247, 250, 0.95)';
   
-  const gradientColors = isCoin
-    ? ['#FFF8E1', '#FFECB3'] as const
-    : ['#E0F7FA', '#B2EBF2'] as const;
-  
-  const borderColor = isCoin ? '#FFE082' : '#80DEEA';
+  const borderColor = isCoin ? TinyTownColors.coin.main : TinyTownColors.diamond.main;
+  const bottomBorderColor = isCoin ? TinyTownColors.coin.shadow : TinyTownColors.diamond.dark;
+  const textColor = isCoin ? TinyTownColors.text.gold : TinyTownColors.diamond.dark;
 
   const content = (
-    <View style={[styles.container, KidsShadows.soft]}>
-      <LinearGradient
-        colors={gradientColors}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={[styles.gradient, { borderColor }]}
-      >
+    <View style={[styles.container, KidsShadows.soft, { borderColor: bottomBorderColor }]}>
+      <View style={[styles.innerContainer, { backgroundColor, borderColor }]}>
         <View style={styles.shine} />
         <View style={styles.content}>
           {isCoin ? (
@@ -132,7 +135,7 @@ export function KidsCurrencyDisplay({
           ) : (
             <DiamondSvg size={sizeConfig.icon} />
           )}
-          <Text style={[styles.text, { fontSize: sizeConfig.text }]}>
+          <Text style={[styles.text, { fontSize: sizeConfig.text, color: textColor }]}>
             {showPlus && '+'}{formatNumber(amount)}
           </Text>
           {onPress && (
@@ -141,7 +144,8 @@ export function KidsCurrencyDisplay({
             </View>
           )}
         </View>
-      </LinearGradient>
+      </View>
+      <View style={[styles.bottomBorder, { backgroundColor: bottomBorderColor }]} />
     </View>
   );
 
@@ -165,12 +169,13 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: KidsRadius.round,
     overflow: 'hidden',
+    borderBottomWidth: 3,
   },
-  gradient: {
+  innerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
     borderRadius: KidsRadius.round,
     borderWidth: 2,
     position: 'relative',
@@ -181,8 +186,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    height: '55%',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderTopLeftRadius: KidsRadius.round,
     borderTopRightRadius: KidsRadius.round,
   },
@@ -194,21 +199,34 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'FredokaOne',
-    color: '#37474F',
+    textShadowColor: 'rgba(255, 255, 255, 0.8)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   plusBadge: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: '#66BB6A',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: TinyTownColors.success.main,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 4,
+    marginLeft: 2,
+    borderWidth: 1.5,
+    borderColor: TinyTownColors.success.dark,
   },
   plusText: {
     fontFamily: 'FredokaOne',
-    fontSize: 12,
+    fontSize: 13,
     color: '#FFFFFF',
     marginTop: -1,
+  },
+  bottomBorder: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 3,
+    borderBottomLeftRadius: KidsRadius.round,
+    borderBottomRightRadius: KidsRadius.round,
   },
 });
