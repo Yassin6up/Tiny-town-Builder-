@@ -1,14 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
 import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import TownScreen from "@/screens/TownScreen";
 import ShopScreen from "@/screens/ShopScreen";
 import StatsScreen from "@/screens/StatsScreen";
 import { useTheme } from "@/hooks/useTheme";
-import { Colors, Spacing, BorderRadius } from "@/constants/theme";
+import { KidsColors, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
 import { ShopSvgIcon } from "@/components/icons/ShopSvgIcon";
 import { StatisticSvgIcon } from "@/components/icons/StatisticSvgIcon";
 
@@ -28,29 +28,27 @@ export default function MainTabNavigator() {
     <Tab.Navigator
       initialRouteName="TownTab"
       screenOptions={{
-        tabBarActiveTintColor: "#FF6B9D",
-        tabBarInactiveTintColor: "#9E9E9E",
+        tabBarActiveTintColor: KidsColors.bubblegumPink,
+        tabBarInactiveTintColor: "#B0BEC5",
         tabBarStyle: {
           position: "absolute",
           backgroundColor: "#FFFFFF",
-          borderTopWidth: 5,
-          borderTopColor: "#D4E9F7",
-          elevation: 15,
+          borderTopWidth: 0,
+          elevation: 20,
           shadowColor: "#000",
-          shadowOffset: { width: 0, height: -6 },
-          shadowOpacity: 0.25,
-          shadowRadius: 16,
-          height: 80 + insets.bottom,
+          shadowOffset: { width: 0, height: -8 },
+          shadowOpacity: 0.15,
+          shadowRadius: 20,
+          height: 85 + insets.bottom,
           paddingBottom: insets.bottom + 12,
-          paddingTop: 14,
-          borderTopLeftRadius: 36,
-          borderTopRightRadius: 36,
+          paddingTop: 16,
+          borderTopLeftRadius: 32,
+          borderTopRightRadius: 32,
         },
         tabBarLabelStyle: {
-          fontFamily: "Nunito-Bold",
+          fontFamily: "FredokaOne",
           fontSize: 12,
-          fontWeight: "700",
-          marginTop: -2,
+          marginTop: -4,
         },
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -61,14 +59,9 @@ export default function MainTabNavigator() {
         component={TownScreen}
         options={{
           title: "Town",
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={[
-                styles.iconWrapper,
-                focused && styles.iconWrapperActive,
-              ]}
-            >
-              <Feather name="home" size={focused ? 28 : 24} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
+              <Feather name="home" size={focused ? 26 : 22} color={color} />
             </View>
           ),
         }}
@@ -78,17 +71,14 @@ export default function MainTabNavigator() {
         component={ShopScreen}
         options={{
           title: "Shop",
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={[
-                styles.shopIconContainer,
-                {
-                  backgroundColor: focused ? "#00E676" : "#E8F4FD",
-                  transform: [{ scale: focused ? 1.15 : 1 }],
-                },
-              ]}
-            >
-              <ShopSvgIcon size={focused ? 44 : 40} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={[styles.shopIconContainer, focused && styles.shopIconActive]}>
+              <LinearGradient
+                colors={focused ? ['#00E676', '#00C853'] : ['#E3F2FD', '#BBDEFB']}
+                style={styles.shopIconGradient}
+              >
+                <ShopSvgIcon size={focused ? 44 : 40} />
+              </LinearGradient>
             </View>
           ),
         }}
@@ -98,14 +88,9 @@ export default function MainTabNavigator() {
         component={StatsScreen}
         options={{
           title: "Stats",
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={[
-                styles.iconWrapper,
-                focused && styles.iconWrapperActive,
-              ]}
-            >
-              <StatisticSvgIcon size={focused ? 38 : 34} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
+              <StatisticSvgIcon size={focused ? 36 : 32} />
             </View>
           ),
         }}
@@ -116,34 +101,33 @@ export default function MainTabNavigator() {
 
 const styles = StyleSheet.create({
   iconWrapper: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent",
   },
   iconWrapperActive: {
-    backgroundColor: "#FFE8F0",
-    shadowColor: "#FF6B9D",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 4,
+    backgroundColor: "#FFF0F5",
+    ...KidsShadows.soft,
   },
   shopIconContainer: {
-    width: 75,
-    height: 75,
-    borderRadius: 38,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    marginTop: -28,
+    borderWidth: 4,
+    borderColor: "#FFFFFF",
+    overflow: "hidden",
+    ...KidsShadows.medium,
+  },
+  shopIconActive: {
+    transform: [{ scale: 1.1 }],
+  },
+  shopIconGradient: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
-    elevation: 12,
-    borderWidth: 5,
-    borderColor: "#FFFFFF",
   },
 });

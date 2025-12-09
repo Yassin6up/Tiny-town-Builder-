@@ -12,12 +12,15 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
-import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
-import { StoneTextureSvg } from "@/components/textures";
+import { Spacing, BorderRadius } from "@/constants/theme";
+import { KidsColors, KidsGradients, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
 import { useMusic } from "@/lib/MusicContext";
+import { KidsGamePanel } from "@/components/ui/KidsGamePanel";
+import { KidsGameButton } from "@/components/ui/KidsGameButton";
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
@@ -27,11 +30,10 @@ export default function SettingsScreen() {
   const [soundEnabled, setSoundEnabled] = React.useState(true);
   const [hapticEnabled, setHapticEnabled] = React.useState(true);
 
-  // Lower music volume when on settings screen
   React.useEffect(() => {
     setMusicVolume(0.2);
     return () => {
-      setMusicVolume(0.5); // Restore volume when leaving settings
+      setMusicVolume(0.5);
     };
   }, [setMusicVolume]);
 
@@ -60,23 +62,21 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      style={styles.container}
       contentContainerStyle={{
         paddingTop: headerHeight + Spacing.lg,
         paddingBottom: insets.bottom + Spacing.xl,
         paddingHorizontal: Spacing.lg,
       }}
     >
-      <View style={styles.sectionWrapper}>
-        <View style={styles.sectionTexture}>
-          <StoneTextureSvg width={360} height={280} variant="gray" borderRadius={12} />
-        </View>
-        <View style={styles.section}>
+      <KidsGamePanel variant="white" style={styles.section}>
         <ThemedText style={styles.sectionTitle}>Game Settings</ThemedText>
 
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
-            <Feather name="music" size={24} color={theme.sage} />
+            <View style={[styles.iconWrapper, { backgroundColor: KidsColors.bubblegumPink }]}>
+              <Feather name="music" size={20} color="#FFFFFF" />
+            </View>
             <View style={styles.settingText}>
               <ThemedText style={styles.settingLabel}>Background Music</ThemedText>
               <ThemedText style={styles.settingDescription}>Play game music</ThemedText>
@@ -88,20 +88,28 @@ export default function SettingsScreen() {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
               toggleMusic();
             }}
-            trackColor={{ false: theme.lockGray, true: theme.sage }}
+            trackColor={{ false: "#E0E0E0", true: KidsColors.mintGreen }}
+            thumbColor="#FFFFFF"
           />
         </View>
 
+        <View style={styles.divider} />
+
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
-            <Feather name="volume-2" size={20} color={theme.darkWood} />
-            <ThemedText style={styles.settingLabel}>Sound Effects</ThemedText>
+            <View style={[styles.iconWrapper, { backgroundColor: KidsColors.skyBlue }]}>
+              <Feather name="volume-2" size={20} color="#FFFFFF" />
+            </View>
+            <View style={styles.settingText}>
+              <ThemedText style={styles.settingLabel}>Sound Effects</ThemedText>
+              <ThemedText style={styles.settingDescription}>Tap and collect sounds</ThemedText>
+            </View>
           </View>
           <Switch
             value={soundEnabled}
             onValueChange={setSoundEnabled}
-            trackColor={{ false: theme.lockGray, true: theme.sage }}
-            thumbColor={Colors.light.warmWhite}
+            trackColor={{ false: "#E0E0E0", true: KidsColors.mintGreen }}
+            thumbColor="#FFFFFF"
           />
         </View>
 
@@ -109,46 +117,54 @@ export default function SettingsScreen() {
 
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
-            <Feather name="smartphone" size={20} color={theme.darkWood} />
-            <ThemedText style={styles.settingLabel}>Haptic Feedback</ThemedText>
+            <View style={[styles.iconWrapper, { backgroundColor: KidsColors.lavenderPurple }]}>
+              <Feather name="smartphone" size={20} color="#FFFFFF" />
+            </View>
+            <View style={styles.settingText}>
+              <ThemedText style={styles.settingLabel}>Haptic Feedback</ThemedText>
+              <ThemedText style={styles.settingDescription}>Vibration on tap</ThemedText>
+            </View>
           </View>
           <Switch
             value={hapticEnabled}
             onValueChange={setHapticEnabled}
-            trackColor={{ false: theme.lockGray, true: theme.sage }}
-            thumbColor={Colors.light.warmWhite}
+            trackColor={{ false: "#E0E0E0", true: KidsColors.mintGreen }}
+            thumbColor="#FFFFFF"
           />
         </View>
-        </View>
-      </View>
+      </KidsGamePanel>
 
-      <View style={styles.sectionWrapper}>
-        <View style={styles.sectionTexture}>
-          <StoneTextureSvg width={360} height={220} variant="blue" borderRadius={12} />
-        </View>
-        <View style={styles.section}>
-        <ThemedText style={styles.sectionTitle}>About</ThemedText>
+      <KidsGamePanel variant="blue" style={styles.section}>
+        <ThemedText style={styles.sectionTitleWhite}>About</ThemedText>
 
         <View style={styles.infoRow}>
-          <ThemedText style={styles.infoLabel}>App Version</ThemedText>
-          <ThemedText style={styles.infoValue}>1.0.0</ThemedText>
+          <ThemedText style={styles.infoLabelWhite}>App Version</ThemedText>
+          <View style={styles.versionBadge}>
+            <ThemedText style={styles.versionText}>1.0.0</ThemedText>
+          </View>
         </View>
 
-        <View style={styles.divider} />
+        <View style={styles.dividerLight} />
 
         <View style={styles.infoRow}>
-          <ThemedText style={styles.infoLabel}>Build</ThemedText>
-          <ThemedText style={styles.infoValue}>2024.12.1</ThemedText>
+          <ThemedText style={styles.infoLabelWhite}>Build</ThemedText>
+          <View style={styles.versionBadge}>
+            <ThemedText style={styles.versionText}>2024.12.1</ThemedText>
+          </View>
         </View>
-      </View>
+      </KidsGamePanel>
 
-      <Pressable
+      <KidsGameButton
+        variant="red"
+        size="large"
         onPress={handleResetData}
-        style={[styles.dangerButton, { backgroundColor: theme.mutedRed }]}
+        style={styles.dangerButton}
       >
-        <Feather name="trash-2" size={20} color={Colors.light.warmWhite} />
-        <ThemedText style={styles.dangerButtonText}>Reset All Progress</ThemedText>
-      </Pressable>
+        <View style={styles.dangerButtonContent}>
+          <Feather name="trash-2" size={22} color="#FFFFFF" />
+          <ThemedText style={styles.dangerButtonText}>Reset All Progress</ThemedText>
+        </View>
+      </KidsGameButton>
 
       <View style={styles.credits}>
         <ThemedText style={styles.creditsText}>
@@ -157,7 +173,6 @@ export default function SettingsScreen() {
         <ThemedText style={styles.creditsSubtext}>
           Built with love for cozy gamers
         </ThemedText>
-        </View>
       </View>
     </ScrollView>
   );
@@ -166,96 +181,103 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  sectionWrapper: {
-    position: "relative",
-    borderRadius: 12,
-    borderWidth: 3,
-    borderColor: "#5C5C5C",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 6,
-    overflow: "hidden",
-    marginBottom: Spacing.lg,
-  },
-  sectionTexture: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 0,
+    backgroundColor: "#E8F4FD",
   },
   section: {
-    position: "relative",
-    zIndex: 1,
-    borderRadius: 12,
-    padding: Spacing.lg,
+    marginBottom: Spacing.lg,
   },
   sectionTitle: {
     fontFamily: "FredokaOne",
-    fontSize: 20,
+    fontSize: 22,
     color: "#2D3748",
+    marginBottom: Spacing.lg,
+  },
+  sectionTitleWhite: {
+    fontFamily: "FredokaOne",
+    fontSize: 22,
+    color: "#FFFFFF",
     marginBottom: Spacing.lg,
   },
   settingRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: Spacing.sm + 2,
+    paddingVertical: Spacing.sm,
   },
   settingInfo: {
     flexDirection: "row",
     alignItems: "center",
     gap: Spacing.md,
+    flex: 1,
+  },
+  settingText: {
+    flex: 1,
+  },
+  iconWrapper: {
+    width: 44,
+    height: 44,
+    borderRadius: KidsRadius.md,
+    justifyContent: "center",
+    alignItems: "center",
+    ...KidsShadows.soft,
   },
   settingLabel: {
-    fontFamily: "Nunito",
+    fontFamily: "Nunito-Bold",
     fontSize: 16,
     color: "#2D3748",
   },
+  settingDescription: {
+    fontFamily: "Nunito",
+    fontSize: 13,
+    color: "#718096",
+    marginTop: 2,
+  },
   divider: {
-    height: 1,
-    backgroundColor: "#E2E8F0",
+    height: 2,
+    backgroundColor: "#E8F4FD",
     marginVertical: Spacing.sm,
+    borderRadius: 1,
+  },
+  dividerLight: {
+    height: 2,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    marginVertical: Spacing.sm,
+    borderRadius: 1,
   },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: Spacing.sm + 2,
+    paddingVertical: Spacing.sm,
   },
-  infoLabel: {
-    fontFamily: "Nunito",
+  infoLabelWhite: {
+    fontFamily: "Nunito-Bold",
     fontSize: 16,
-    color: "#2D3748",
+    color: "#FFFFFF",
   },
-  infoValue: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: 16,
-    color: "#718096",
+  versionBadge: {
+    backgroundColor: "rgba(255,255,255,0.25)",
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: KidsRadius.round,
+  },
+  versionText: {
+    fontFamily: "FredokaOne",
+    fontSize: 14,
+    color: "#FFFFFF",
   },
   dangerButton: {
+    marginBottom: Spacing.xl,
+  },
+  dangerButtonContent: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: Spacing.sm,
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.lg,
-    marginBottom: Spacing.xl,
-    backgroundColor: "#FC8181",
-    shadowColor: "#FC8181",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 4,
   },
   dangerButtonText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: 16,
+    fontFamily: "FredokaOne",
+    fontSize: 18,
     color: "#FFFFFF",
   },
   credits: {
@@ -264,8 +286,11 @@ const styles = StyleSheet.create({
   },
   creditsText: {
     fontFamily: "FredokaOne",
-    fontSize: 22,
+    fontSize: 24,
     color: "#2D3748",
+    textShadowColor: "#FFFFFF",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
   },
   creditsSubtext: {
     fontFamily: "Nunito",

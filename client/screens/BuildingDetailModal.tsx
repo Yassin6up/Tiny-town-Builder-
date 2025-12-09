@@ -10,24 +10,24 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { useGame } from "@/lib/GameContext";
 import { useMusic } from "@/lib/MusicContext";
 import { formatNumber, getBuildingCost, getUpgradeCost } from "@/lib/gameData";
-import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
+import { Spacing, BorderRadius } from "@/constants/theme";
+import { KidsColors, KidsGradients, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { CoinIcon } from "@/components/CoinIcon";
 import { DiamondIcon } from "@/components/DiamondIcon";
 import { BuildingIcon } from "@/components/BuildingIcon";
 import { Audio } from "expo-av";
-import { CartoonButton } from "@/components/CartoonButton";
-import { CartoonPanel } from "@/components/CartoonPanel";
-import { BounceIn } from "@/components/CartoonAnimations";
-import { WoodTextureSvg, GoldTextureSvg } from "@/components/textures";
+import { KidsGamePanel } from "@/components/ui/KidsGamePanel";
+import { KidsGameButton } from "@/components/ui/KidsGameButton";
 
-const MAX_LEVEL = 5; // Maximum 5 stars
+const MAX_LEVEL = 5;
 
 type RouteParams = RouteProp<RootStackParamList, "BuildingDetail">;
 
@@ -40,11 +40,10 @@ export default function BuildingDetailModal() {
   const { state, buyBuilding, upgradeBuilding } = useGame();
   const { setMusicVolume } = useMusic();
 
-  // Lower music volume when modal opens
   React.useEffect(() => {
     setMusicVolume(0.2);
     return () => {
-      setMusicVolume(0.5); // Restore volume when modal closes
+      setMusicVolume(0.5);
     };
   }, [setMusicVolume]);
 
@@ -53,7 +52,7 @@ export default function BuildingDetailModal() {
 
   if (!building) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View style={styles.container}>
         <ThemedText>Building not found</ThemedText>
       </View>
     );
@@ -62,9 +61,8 @@ export default function BuildingDetailModal() {
   const cost = getBuildingCost(building);
   const upgradeCost = getUpgradeCost(building);
   
-  // Diamond costs
   const diamondCostForBuilding = building.diamondCost ?? 0;
-  const diamondCostForUpgrade = (building.level === 4) ? 3 : 0; // Level 4→5 requires 3 diamonds
+  const diamondCostForUpgrade = (building.level === 4) ? 3 : 0;
   
   const canAffordBuy = state.coins >= cost && state.diamonds >= diamondCostForBuilding;
   const isMaxLevel = building.level >= MAX_LEVEL;
@@ -79,7 +77,6 @@ export default function BuildingDetailModal() {
     const success = buyBuilding(building.id);
     if (success) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      // Play cash sound
       try {
         const { sound } = await Audio.Sound.createAsync(
           require('../../assets/sounds/cash.mp3'),
@@ -101,7 +98,6 @@ export default function BuildingDetailModal() {
     const success = upgradeBuilding(building.id);
     if (success) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      // Play cash sound
       try {
         const { sound } = await Audio.Sound.createAsync(
           require('../../assets/sounds/building.mp3'),
@@ -118,121 +114,121 @@ export default function BuildingDetailModal() {
     }
   };
 
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 0; i < MAX_LEVEL; i++) {
+      stars.push(
+        <Feather 
+          key={i} 
+          name="star" 
+          size={20} 
+          color={i < building.level ? KidsColors.candyGold : "#E0E0E0"} 
+          style={{ marginHorizontal: 2 }}
+        />
+      );
+    }
+    return stars;
+  };
+
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      style={styles.container}
       contentContainerStyle={{
         paddingTop: headerHeight + Spacing.lg,
         paddingBottom: insets.bottom + Spacing.xl,
         paddingHorizontal: Spacing.lg,
       }}
     >
-      {/* Card Style Building Info */}
-      <View style={styles.buildingCard}>
-        {/* Header Row with Icon, Name and Level Badge */}
+      <KidsGamePanel variant="white" style={styles.buildingCard}>
         <View style={styles.cardHeader}>
-          <View style={styles.iconAndName}>
-            <BuildingIcon type={building.iconType} size={48} />
-            <ThemedText style={styles.buildingName}>{building.name}</ThemedText>
+          <View style={styles.iconWrapper}>
+            <BuildingIcon type={building.iconType} size={56} />
           </View>
-          <View style={styles.levelBadge}>
-            <ThemedText style={styles.levelText}>LV {building.level}</ThemedText>
+          <View style={styles.headerInfo}>
+            <ThemedText style={styles.buildingName}>{building.name}</ThemedText>
+            <View style={styles.starsRow}>
+              {renderStars()}
+            </View>
           </View>
         </View>
 
-        {/* Stats Section */}
         <View style={styles.statsSection}>
           <View style={styles.statRow}>
             <ThemedText style={styles.statLabel}>Total Earnings:</ThemedText>
             <View style={styles.statValueRow}>
-              <CoinIcon size={18} />
+              <CoinIcon size={20} />
               <ThemedText style={styles.statValue}>
-                {formatNumber(totalIncome * 3600)}
+                {formatNumber(totalIncome * 3600)}/hr
               </ThemedText>
             </View>
           </View>
 
           <View style={styles.statRow}>
-            <ThemedText style={styles.statLabel}>Income / sec:</ThemedText>
+            <ThemedText style={styles.statLabel}>Income:</ThemedText>
             <View style={styles.statValueRow}>
-              <CoinIcon size={18} />
+              <CoinIcon size={20} />
               <ThemedText style={styles.incomeValue}>
-                +{formatNumber(totalIncome)} / s
+                +{formatNumber(totalIncome)}/s
               </ThemedText>
             </View>
           </View>
         </View>
 
-        {/* Divider */}
         <View style={styles.cardDivider} />
 
-        {/* Action Buttons */}
         {isLocked ? (
-          <View style={styles.lockedNotice}>
-            <Feather name="lock" size={20} color="#94A3B8" />
-            <ThemedText style={styles.lockedText}>
-              Unlock {district?.name} district first
-            </ThemedText>
-          </View>
+          <KidsGamePanel variant="cream" style={styles.lockedNotice}>
+            <View style={styles.lockedContent}>
+              <Feather name="lock" size={24} color={KidsColors.lavenderPurple} />
+              <ThemedText style={styles.lockedText}>
+                Unlock {district?.name} district first
+              </ThemedText>
+            </View>
+          </KidsGamePanel>
         ) : (
           <View style={styles.actionSection}>
-            <View style={styles.upgradeButtonWrapper}>
-              <View style={styles.buttonTexture}>
-                <GoldTextureSvg 
-                  width={340} 
-                  height={60} 
-                  variant={canAffordUpgrade ? "bright" : "matte"} 
-                  borderRadius={20} 
-                />
-              </View>
-              <Pressable
-                onPress={handleUpgrade}
-                style={styles.upgradeButton}
-                disabled={!canAffordUpgrade || building.level >= MAX_LEVEL}
-              >
-                <ThemedText style={styles.upgradeButtonText}>
-                  {building.level >= MAX_LEVEL ? "Max Level" : "Upgrade"}
+            <KidsGameButton
+              variant={canAffordUpgrade ? "gold" : "gray"}
+              size="large"
+              onPress={handleUpgrade}
+              disabled={!canAffordUpgrade || isMaxLevel}
+            >
+              <View style={styles.buttonContent}>
+                <ThemedText style={styles.buttonText}>
+                  {isMaxLevel ? "Max Level" : "Upgrade"}
                 </ThemedText>
-                {building.level < MAX_LEVEL && (
+                {!isMaxLevel && (
                   <View style={styles.costBadge}>
-                    <CoinIcon size={16} />
+                    <CoinIcon size={18} />
                     <ThemedText style={styles.costText}>
                       {formatNumber(upgradeCost)}
                     </ThemedText>
                   </View>
                 )}
-              </Pressable>
-            </View>
-
-            <View style={styles.buyButtonWrapper}>
-              <View style={styles.buttonTexture}>
-                <WoodTextureSvg 
-                  width={340} 
-                  height={60} 
-                  variant={canAffordBuy ? "rich" : "dark"} 
-                  borderRadius={20} 
-                />
               </View>
-              <Pressable
-                onPress={handleBuy}
-                style={styles.buyButton}
-                disabled={!canAffordBuy}
-              >
-                <ThemedText style={styles.buyButtonText}>Buy Another</ThemedText>
+            </KidsGameButton>
+
+            <KidsGameButton
+              variant={canAffordBuy ? "green" : "gray"}
+              size="large"
+              onPress={handleBuy}
+              disabled={!canAffordBuy}
+            >
+              <View style={styles.buttonContent}>
+                <ThemedText style={styles.buttonText}>Buy Another</ThemedText>
                 <View style={styles.costBadge}>
-                  <CoinIcon size={16} />
+                  <CoinIcon size={18} />
                   <ThemedText style={styles.costText}>
                     {formatNumber(cost)}
                   </ThemedText>
                 </View>
-              </Pressable>
-            </View>
+              </View>
+            </KidsGameButton>
           </View>
         )}
-      </View>
+      </KidsGamePanel>
 
-      {/* Additional Info Card */}
-      <View style={styles.infoCard}>
+      <KidsGamePanel variant="blue" style={styles.infoCard}>
         <ThemedText style={styles.descriptionText}>{building.description}</ThemedText>
         <View style={styles.detailsGrid}>
           <View style={styles.detailItem}>
@@ -240,13 +236,13 @@ export default function BuildingDetailModal() {
             <ThemedText style={styles.detailValue}>{building.owned}</ThemedText>
           </View>
           <View style={styles.detailItem}>
-            <ThemedText style={styles.detailLabel}>Income Each</ThemedText>
+            <ThemedText style={styles.detailLabel}>Each</ThemedText>
             <ThemedText style={styles.detailValue}>
               {formatNumber(incomePerBuilding)}/s
             </ThemedText>
           </View>
         </View>
-      </View>
+      </KidsGamePanel>
     </ScrollView>
   );
 }
@@ -254,54 +250,43 @@ export default function BuildingDetailModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F3F4F6",
+    backgroundColor: "#E8F4FD",
   },
   buildingCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    borderWidth: 3,
-    borderColor: "#E5E7EB",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    marginBottom: Spacing.lg,
   },
   cardHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: Spacing.lg,
   },
-  iconAndName: {
-    flexDirection: "row",
+  iconWrapper: {
+    width: 80,
+    height: 80,
+    borderRadius: KidsRadius.lg,
+    backgroundColor: "#F0F9FF",
+    justifyContent: "center",
     alignItems: "center",
-    gap: 12,
+    borderWidth: 3,
+    borderColor: KidsColors.skyBlue,
+    ...KidsShadows.soft,
+  },
+  headerInfo: {
     flex: 1,
+    marginLeft: Spacing.md,
   },
   buildingName: {
     fontFamily: "FredokaOne",
-    fontSize: 22,
-    color: "#1F2937",
+    fontSize: 24,
+    color: "#2D3748",
   },
-  levelBadge: {
-    backgroundColor: "#FBBF24",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: "#F59E0B",
-  },
-  levelText: {
-    fontFamily: "FredokaOne",
-    fontSize: 14,
-    color: "#78350F",
+  starsRow: {
+    flexDirection: "row",
+    marginTop: Spacing.xs,
   },
   statsSection: {
-    gap: 12,
-    marginBottom: 16,
+    gap: Spacing.md,
+    marginBottom: Spacing.md,
   },
   statRow: {
     flexDirection: "row",
@@ -310,105 +295,52 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontFamily: "Nunito-Bold",
-    fontSize: 15,
-    color: "#6B7280",
+    fontSize: 16,
+    color: "#718096",
   },
   statValueRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: Spacing.xs,
   },
   statValue: {
     fontFamily: "FredokaOne",
-    fontSize: 18,
-    color: "#1F2937",
+    fontSize: 20,
+    color: "#2D3748",
   },
   incomeValue: {
     fontFamily: "FredokaOne",
-    fontSize: 18,
-    color: "#10B981",
+    fontSize: 20,
+    color: KidsColors.mintGreen,
   },
   cardDivider: {
-    height: 2,
-    backgroundColor: "#E5E7EB",
-    marginVertical: 16,
+    height: 3,
+    backgroundColor: "#E8F4FD",
+    marginVertical: Spacing.md,
+    borderRadius: 2,
   },
   actionSection: {
-    gap: 12,
+    gap: Spacing.md,
   },
-  upgradeButtonWrapper: {
-    position: "relative",
-    borderRadius: 20,
-    overflow: "hidden",
-    borderWidth: 3,
-    borderColor: "#8B6914",
-    shadowColor: "#8B6914",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  buyButtonWrapper: {
-    position: "relative",
-    borderRadius: 20,
-    overflow: "hidden",
-    borderWidth: 3,
-    borderColor: "#5C330F",
-    shadowColor: "#5C330F",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  buttonTexture: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  upgradeButton: {
+  buttonContent: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    position: "relative",
-    zIndex: 1,
+    justifyContent: "space-between",
+    width: "100%",
   },
-  upgradeButtonText: {
+  buttonText: {
     fontFamily: "FredokaOne",
     fontSize: 18,
     color: "#FFFFFF",
-    textShadowColor: "#000000",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
-  },
-  buyButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    position: "relative",
-    zIndex: 1,
-  },
-  buyButtonText: {
-    fontFamily: "FredokaOne",
-    fontSize: 18,
-    color: "#FFFFFF",
-    textShadowColor: "#000000",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
   },
   costBadge: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
+    gap: Spacing.xs,
+    backgroundColor: "rgba(255,255,255,0.25)",
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xs,
+    borderRadius: KidsRadius.round,
   },
   costText: {
     fontFamily: "FredokaOne",
@@ -416,61 +348,48 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   lockedNotice: {
+    marginTop: Spacing.sm,
+  },
+  lockedContent: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
-    padding: 16,
-    backgroundColor: "#F3F4F6",
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: "#E5E7EB",
+    gap: Spacing.md,
   },
   lockedText: {
     fontFamily: "Nunito-Bold",
     fontSize: 16,
-    color: "#6B7280",
+    color: "#718096",
   },
   infoCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    padding: 20,
-    borderWidth: 3,
-    borderColor: "#E5E7EB",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    marginBottom: Spacing.lg,
   },
   descriptionText: {
     fontFamily: "Nunito",
     fontSize: 15,
-    color: "#6B7280",
-    marginBottom: 16,
+    color: "#FFFFFF",
+    marginBottom: Spacing.md,
     lineHeight: 22,
   },
   detailsGrid: {
     flexDirection: "row",
-    gap: 12,
+    gap: Spacing.md,
   },
   detailItem: {
     flex: 1,
-    backgroundColor: "#F9FAFB",
-    padding: 12,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: "#E5E7EB",
+    backgroundColor: "rgba(255,255,255,0.2)",
+    padding: Spacing.md,
+    borderRadius: KidsRadius.md,
   },
   detailLabel: {
     fontFamily: "Nunito-Bold",
     fontSize: 13,
-    color: "#9CA3AF",
+    color: "rgba(255,255,255,0.8)",
     marginBottom: 4,
   },
   detailValue: {
     fontFamily: "FredokaOne",
-    fontSize: 16,
-    color: "#1F2937",
+    fontSize: 18,
+    color: "#FFFFFF",
   },
 });

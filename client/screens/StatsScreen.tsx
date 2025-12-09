@@ -11,22 +11,40 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { ThemedText } from "@/components/ThemedText";
-import { Card } from "@/components/Card";
 import { useTheme } from "@/hooks/useTheme";
 import { useGame } from "@/lib/GameContext";
 import { useMusic } from "@/lib/MusicContext";
 import { SettingsSvgIcon } from "@/components/icons/SettingsSvgIcon";
 import { formatNumber } from "@/lib/gameData";
-import { Colors, Spacing, BorderRadius, Shadows } from "@/constants/theme";
+import { Spacing, BorderRadius } from "@/constants/theme";
+import { KidsColors, KidsGradients, KidsRadius, KidsShadows } from "@/constants/kidsCartoonTheme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { CoinIcon } from "@/components/CoinIcon";
-import { DistrictBadge } from "@/components/DistrictBadge";
-import { StatCard } from "@/components/StatCard";
-import { BoostCard } from "@/components/BoostCard";
+import { KidsStatBadge } from "@/components/ui/KidsStatBadge";
+import { DistrictId } from "@/lib/gameData";
+import { KidsBoostCard } from "@/components/ui/KidsBoostCard";
+import { KidsGamePanel } from "@/components/ui/KidsGamePanel";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const DISTRICT_COLORS: Record<DistrictId, readonly [string, string]> = {
+  forest: ['#66BB6A', '#43A047'],
+  coastal: ['#4FC3F7', '#0288D1'],
+  mountain: ['#90A4AE', '#546E7A'],
+  desert: ['#FFB74D', '#F57C00'],
+  skyline: ['#BA68C8', '#7B1FA2'],
+};
+
+const DISTRICT_NAMES: Record<DistrictId, string> = {
+  forest: 'Forest',
+  coastal: 'Coastal',
+  mountain: 'Mountain',
+  desert: 'Desert',
+  skyline: 'Skyline',
+};
 
 export default function StatsScreen() {
   const insets = useSafeAreaInsets();
@@ -36,11 +54,10 @@ export default function StatsScreen() {
   const { state, activateAdBoost, purchaseGoldenBoost, purchaseAdFree } = useGame();
   const { setMusicVolume } = useMusic();
 
-  // Lower music volume when on stats screen
   React.useEffect(() => {
     setMusicVolume(0.2);
     return () => {
-      setMusicVolume(0.5); // Restore volume when leaving stats
+      setMusicVolume(0.5);
     };
   }, [setMusicVolume]);
 
@@ -53,7 +70,7 @@ export default function StatsScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View style={styles.container}>
       <View style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}>
         <ThemedText style={styles.title}>Village Stats</ThemedText>
         <Pressable
@@ -72,9 +89,9 @@ export default function StatsScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.mainStats}>
-          <View style={[styles.incomeCard, { backgroundColor: theme.sage }]}>
-            <CoinIcon size={48} />
+        <KidsGamePanel variant="mint" style={styles.incomePanel}>
+          <View style={styles.incomeContent}>
+            <CoinIcon size={56} />
             <View style={styles.incomeInfo}>
               <ThemedText style={styles.incomeLabel}>Income per Second</ThemedText>
               <ThemedText style={styles.incomeValue}>
@@ -82,50 +99,62 @@ export default function StatsScreen() {
               </ThemedText>
             </View>
           </View>
-        </View>
+        </KidsGamePanel>
 
         <View style={styles.statsGrid}>
-          <StatCard
+          <KidsStatBadge
             icon="dollar-sign"
             label="Total Earned"
             value={formatNumber(state.totalEarned)}
-            color={theme.gold}
+            color={KidsColors.candyGold}
           />
-          <StatCard
+          <KidsStatBadge
             icon="home"
             label="Buildings"
             value={totalBuildings.toString()}
-            color={theme.sage}
+            color={KidsColors.mintGreen}
           />
-          <StatCard
+          <KidsStatBadge
             icon="map"
             label="Districts"
             value={`${unlockedDistricts}/5`}
-            color={theme.skyBlue}
+            color={KidsColors.skyBlue}
           />
-          <StatCard
+          <KidsStatBadge
             icon="mouse-pointer"
             label="Taps"
             value={formatNumber(state.tapCount)}
-            color={theme.sandyBrown}
+            color={KidsColors.bubblegumPink}
           />
         </View>
 
         <ThemedText style={styles.sectionTitle}>Districts</ThemedText>
         <View style={styles.districtBadges}>
           {state.districts.map((district) => (
-            <DistrictBadge
+            <LinearGradient
               key={district.id}
-              district={district}
-              isUnlocked={district.unlocked}
-            />
+              colors={DISTRICT_COLORS[district.id as DistrictId]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={[
+                styles.miniBadge,
+                !district.unlocked && styles.miniBadgeLocked,
+              ]}
+            >
+              {!district.unlocked && (
+                <Feather name="lock" size={12} color="rgba(255,255,255,0.8)" style={styles.lockIcon} />
+              )}
+              <ThemedText style={styles.miniBadgeText}>
+                {DISTRICT_NAMES[district.id as DistrictId]}
+              </ThemedText>
+            </LinearGradient>
           ))}
         </View>
 
         <ThemedText style={styles.sectionTitle}>Boosts & Upgrades</ThemedText>
         
         {!state.adFreePurchased ? (
-          <BoostCard
+          <KidsBoostCard
             title="2x Income Boost"
             description="Watch an ad to double your income for 1 hour"
             buttonText={state.adBoostActive ? "Active!" : "Watch Ad"}
@@ -136,7 +165,7 @@ export default function StatsScreen() {
         ) : null}
 
         {!state.goldenBoostPurchased ? (
-          <BoostCard
+          <KidsBoostCard
             title="Golden Boost Pack"
             description="+50% all income permanently"
             buttonText="Purchase"
@@ -145,14 +174,18 @@ export default function StatsScreen() {
             isPremium
           />
         ) : (
-          <View style={[styles.purchasedCard, { backgroundColor: theme.backgroundDefault }]}>
-            <Feather name="check-circle" size={24} color={theme.sage} />
-            <ThemedText style={styles.purchasedText}>Golden Boost Active</ThemedText>
-          </View>
+          <KidsGamePanel variant="mint" style={styles.purchasedCard}>
+            <View style={styles.purchasedContent}>
+              <View style={styles.purchasedIconWrapper}>
+                <Feather name="check-circle" size={28} color="#FFFFFF" />
+              </View>
+              <ThemedText style={styles.purchasedText}>Golden Boost Active</ThemedText>
+            </View>
+          </KidsGamePanel>
         )}
 
         {!state.adFreePurchased ? (
-          <BoostCard
+          <KidsBoostCard
             title="Ad-Free Village"
             description="Remove all ads forever"
             buttonText="Purchase"
@@ -161,10 +194,14 @@ export default function StatsScreen() {
             isPremium
           />
         ) : (
-          <View style={[styles.purchasedCard, { backgroundColor: theme.backgroundDefault }]}>
-            <Feather name="check-circle" size={24} color={theme.sage} />
-            <ThemedText style={styles.purchasedText}>Ad-Free Active</ThemedText>
-          </View>
+          <KidsGamePanel variant="mint" style={styles.purchasedCard}>
+            <View style={styles.purchasedContent}>
+              <View style={styles.purchasedIconWrapper}>
+                <Feather name="check-circle" size={28} color="#FFFFFF" />
+              </View>
+              <ThemedText style={styles.purchasedText}>Ad-Free Active</ThemedText>
+            </View>
+          </KidsGamePanel>
         )}
       </ScrollView>
     </View>
@@ -174,7 +211,7 @@ export default function StatsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#E8F4FD",
   },
   header: {
     flexDirection: "row",
@@ -185,54 +222,50 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "FredokaOne",
-    fontSize: 28,
+    fontSize: 32,
     color: "#2D3748",
+    textShadowColor: "#FFFFFF",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
   },
   settingsButton: {
-    width: 44,
-    height: 44,
+    width: 52,
+    height: 52,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F7FAFC",
-    borderRadius: BorderRadius.full,
-    shadowColor: "#4299E1",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 2,
+    backgroundColor: "#FFFFFF",
+    borderRadius: KidsRadius.round,
+    borderWidth: 3,
+    borderColor: KidsColors.skyBlue,
+    ...KidsShadows.soft,
   },
   content: {
     flex: 1,
   },
-  mainStats: {
+  incomePanel: {
     marginBottom: Spacing.lg,
   },
-  incomeCard: {
+  incomeContent: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.xl,
-    borderRadius: BorderRadius.lg,
     gap: Spacing.lg,
-    backgroundColor: "#48BB78",
-    shadowColor: "#48BB78",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
   },
   incomeInfo: {
     flex: 1,
   },
   incomeLabel: {
-    fontFamily: "Nunito",
-    fontSize: 14,
+    fontFamily: "Nunito-SemiBold",
+    fontSize: 16,
     color: "#FFFFFF",
     opacity: 0.9,
   },
   incomeValue: {
     fontFamily: "FredokaOne",
-    fontSize: 32,
+    fontSize: 36,
     color: "#FFFFFF",
+    textShadowColor: "rgba(0,0,0,0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   statsGrid: {
     flexDirection: "row",
@@ -242,9 +275,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: "FredokaOne",
-    fontSize: 20,
+    fontSize: 24,
     color: "#2D3748",
     marginBottom: Spacing.md,
+    textShadowColor: "#FFFFFF",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   districtBadges: {
     flexDirection: "row",
@@ -253,19 +289,48 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xl,
   },
   purchasedCard: {
+    marginBottom: Spacing.md,
+  },
+  purchasedContent: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.lg,
     gap: Spacing.md,
-    marginBottom: Spacing.md,
-    backgroundColor: "#F0FFF4",
-    borderWidth: 2,
-    borderColor: "#48BB78",
+  },
+  purchasedIconWrapper: {
+    width: 48,
+    height: 48,
+    borderRadius: KidsRadius.round,
+    backgroundColor: "rgba(255,255,255,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   purchasedText: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: 16,
-    color: "#2D3748",
+    fontFamily: "FredokaOne",
+    fontSize: 18,
+    color: "#FFFFFF",
+  },
+  miniBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: KidsRadius.md,
+    borderWidth: 2,
+    borderColor: "rgba(255,255,255,0.4)",
+    ...KidsShadows.soft,
+  },
+  miniBadgeLocked: {
+    opacity: 0.6,
+  },
+  miniBadgeText: {
+    fontFamily: "FredokaOne",
+    fontSize: 14,
+    color: "#FFFFFF",
+    textShadowColor: "rgba(0,0,0,0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  lockIcon: {
+    marginRight: 4,
   },
 });
